@@ -1,8 +1,9 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import { PasswordHasher } from '@nestjs/authentication';
 import { ImagenesService } from '../imagenes/imagenes.service.js';
 import { RegistroUsuarioDto } from './dto/registro.dto.js';
+import { LoginUsuarioDto } from './dto/login.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -28,9 +29,9 @@ export class AuthService {
     
     if (imagen) {
       const esImagen = imagen.mimetype.startsWith("image/");
-      const tamañoImagen = imagen.size < (2 * 1024 * 1024);
+      const pesoImagen = imagen.size < (2 * 1024 * 1024);
 
-      if (!esImagen || !tamañoImagen) {
+      if (!esImagen || !pesoImagen) {
         throw new BadRequestException("La imagen debe ser JPG, PNG o similar y pesar menos de 2 MB");
       }
 
@@ -44,6 +45,24 @@ export class AuthService {
     const usuario = await this.usuariosService.crear({...datos, fechaNacimiento: new Date(dto.fechaNacimiento), contrasena: contrasenaHasheada, imagenUrl });
 
     const { contrasena, ...usuarioSinContrasena } = usuario.toObject();
+
+    return usuarioSinContrasena;
+  }
+
+  async login(dto: LoginUsuarioDto) {
+    const usuario = await this.usuariosService.buscarPorEmailOUsuario(dto.usuario);
+
+    const valida = await this.passwordHasher.verify(dto.contrasena, usuario?.contrasena);
+
+    if (!usuario || !valida) {
+      throw new UnauthorizedException("Las credenciales no son correctas");
+    }
+
+    if (!usuario.habilitado) {
+      throw new ForbiddenException("Tu cuenta esta deshabilitada");
+    }
+
+    const { contrasena , ...usuarioSinContrasena } = usuario.toObject()
 
     return usuarioSinContrasena;
   }
