@@ -23,6 +23,12 @@
 .switch a {
     font-weight: 700;
     color: var(--texto);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.switch a:hover {
+    color: var(--texto-suave);
 }
 
 @media (max-width: 860px) {
