@@ -1,4 +1,23 @@
-<a routerLink="/login" routerLinkActive="activo">Login</a>
-<a routerLink="/registro" routerLinkActive="activo">Registro</a>
-<a routerLink="/mi-perfil" routerLinkActive="activo">Perfil</a>
-<a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
+<header class="nav">
+    <div class="nav-in">
+        <a class="logo" routerLink="/publicaciones">PADD<b>O</b>CK</a>
+
+        <nav class="nav-links">
+            <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
+            <a routerLink="/mi-perfil" routerLinkActive="activo">Mi perfil</a>
+        </nav>
+
+        @if (usuario(); as u) {
+            <div class="yo">
+                @if (u.imagenUrl) {
+                    <img class="avatar" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
+                } @else {
+                    <div class="avatar">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
+                }
+                <span>&#64;{{ u.nombreUsuario }}</span>
+            </div>
+        }
+
+        <button class="btn btn-sm" type="button" (click)="salir()">Salir</button>
+    </div>
+</header>

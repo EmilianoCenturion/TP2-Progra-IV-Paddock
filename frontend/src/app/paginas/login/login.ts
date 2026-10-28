@@ -37,7 +37,7 @@ export class Login {
 
     this.authService.login(this.form.getRawValue()).subscribe({
       next: (usuario) => {
-        localStorage.setItem('usuario', JSON.stringify(usuario));
+        this.authService.guardarSesion(usuario);
         this.router.navigate(["/publicaciones"]);
       }, 
       error: (err) => {

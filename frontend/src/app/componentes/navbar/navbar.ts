@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Auth } from '../../servicios/auth';
 
 @Component({
   imports: [ RouterLink, RouterLinkActive ],
@@ -7,4 +8,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.css',
   templateUrl: './navbar.html',
 })
-export class Navbar {}
+export class Navbar {
+
+  private authService = inject(Auth);
+  private router = inject(Router);
+
+  usuario = this.authService.usuario;
+
+  salir() {
+    this.authService.cerrarSesion();
+    this.router.navigate(["/login"]);
+  }
+}
