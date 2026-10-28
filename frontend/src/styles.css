@@ -1,1 +1,356 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    color-scheme: dark;
+    --fondo: #15151E;
+    --superficie: #1F1F2B;
+    --superficie-2: #2A2A38;
+    --borde: #38384A;
+    --rojo: #E10600;
+    --rojo-hover: #FF2A1F;
+    --texto: #FFFFFF;
+    --texto-suave: #A8A8B8;
+    --exito: #00D26A;
+    --aviso: #FFD400;
+    --violeta: #A020F0;
+    /* colores de equipo (solo como franjas) */
+    --alpine: #FF87BC;
+    --ferrari: #E8002D;
+    --mclaren: #FF8000;
+    --mercedes: #27F4D2;
+    --redbull: #3671C6;
+    --aston: #229971;
+    --f-titulo: 'Titillium Web', system-ui, sans-serif;
+    --f-texto: 'Titillium Web', system-ui, sans-serif;
+    --f-dato: 'Roboto Mono', ui-monospace, monospace;
+    --r: 6px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0
+}
+
+body {
+    font-family: var(--f-texto);
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.5;
+    min-height: 100vh;
+    font-size: 16px
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--f-titulo);
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1.05;
+    letter-spacing: -.01em;
+    text-wrap: balance
+}
+
+a {
+    color: inherit
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer
+}
+
+:focus-visible {
+    outline: 2px solid var(--aviso);
+    outline-offset: 2px
+}
+
+.mono {
+    font-family: var(--f-dato);
+    font-variant-numeric: tabular-nums
+}
+
+.card {
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--r);
+    padding: 20px
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--borde);
+    background: var(--superficie-2);
+    padding: 9px 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-size: .85rem;
+    text-decoration: none;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    transition: background .12s
+}
+
+.btn:hover {
+    background: var(--borde)
+}
+
+.btn-rojo {
+    background: var(--rojo);
+    border-color: var(--rojo)
+}
+
+.btn-rojo:hover {
+    background: var(--rojo-hover)
+}
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: .75rem
+}
+
+.btn-block {
+    width: 100%
+}
+
+.btn-peligro {
+    background: transparent;
+    border-color: var(--rojo);
+    color: var(--rojo)
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 3px;
+    padding: 1px 8px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: var(--superficie-2);
+    color: var(--texto-suave)
+}
+
+.chip.gp {
+    background: transparent;
+    border: 1px solid var(--borde);
+    color: var(--texto)
+}
+
+.chip.yo {
+    background: var(--rojo);
+    color: #fff
+}
+
+.chip.rapida {
+    background: var(--violeta);
+    color: #fff
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-bottom: 6px
+}
+
+.field {
+    margin-bottom: 16px;
+    min-width: 0
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    font: inherit;
+    color: var(--texto);
+    background: var(--superficie-2);
+    border: 1px solid var(--borde);
+    border-radius: 4px;
+    padding: 10px 12px;
+    outline: none
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--texto)
+}
+
+input.error {
+    border-color: var(--rojo)
+}
+
+.err {
+    color: var(--rojo-hover);
+    font-size: .82rem;
+    margin-top: 4px
+}
+
+textarea {
+    resize: vertical;
+    min-height: 96px
+}
+
+input[type=file] {
+    padding: 8px;
+    border-style: dashed
+}
+
+.hint {
+    font-size: .8rem;
+    color: var(--texto-suave);
+    margin-top: 4px
+}
+
+.msg-err {
+    border-left: 4px solid var(--rojo);
+    background: rgba(225, 6, 0, .12);
+    padding: 8px 12px;
+    font-size: .9rem;
+    font-weight: 600;
+    margin-bottom: 16px
+}
+
+.rules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px
+}
+
+.rules .chip.ok {
+    background: rgba(0, 210, 106, .15);
+    color: var(--exito)
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-style: italic;
+    flex: none;
+    background: var(--superficie-2);
+    border: 2px solid var(--eq, var(--borde))
+}
+
+.bandera {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: conic-gradient(currentColor 25%, transparent 0 50%, currentColor 0 75%, transparent 0) 0 0/7px 7px;
+    border: 1px solid currentColor;
+    flex: none
+}
+
+.logo {
+    font-family: var(--f-titulo);
+    font-weight: 900;
+    font-style: italic;
+    font-size: 1.5rem;
+    letter-spacing: .02em;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap
+}
+
+.logo b {
+    color: var(--rojo)
+}
+
+.logo::after {
+    content: "";
+    display: block;
+    height: 5px;
+    margin-top: 5px;
+    background: conic-gradient(var(--texto) 25%, var(--fondo) 0 50%, var(--texto) 0 75%, var(--fondo) 0) 0 0/5px 5px
+}
+
+.wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-block: 28px 64px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px))
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .7);
+    display: none;
+    place-items: center;
+    padding: 16px;
+    z-index: 100
+}
+
+.overlay.on {
+    display: grid
+}
+
+.modal {
+    max-width: 480px;
+    width: 100%;
+    border-top: 4px solid var(--rojo)
+}
+
+.modal h2 {
+    font-size: 1.7rem;
+    margin-bottom: 6px;
+    text-transform: uppercase
+}
+
+.modal .sub {
+    color: var(--texto-suave);
+    margin-bottom: 16px
+}
+
+.modal .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    flex-wrap: wrap
+}
+
+.modal.amarilla {
+    border-top-color: var(--aviso)
+}
+
+.count {
+    font-family: var(--f-dato);
+    font-weight: 700;
+    font-size: 3rem;
+    color: var(--aviso);
+    margin: 6px 0
+}
+
+.toast {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right, 0px));
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--exito);
+    padding: 12px 16px;
+    font-weight: 600;
+    z-index: 120;
+    display: none;
+    max-width: calc(100% - 32px)
+}
+
+.toast.on {
+    display: block
+}
