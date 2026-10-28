@@ -1,0 +1,28 @@
+<div class="wrap contenedor">
+    <form class="card" [formGroup]="form" (ngSubmit)="ingresar()">
+        
+        @if (mensajeError()) {
+            <div class="msg-err">{{ mensajeError() }}</div>
+        }
+        
+        <div class="field">
+        <label for="l-usuario">Usuario o correo</label>
+        <input id="l-usuario" formControlName="usuario" [class.error]="invalido('usuario')" />
+            @if (invalido('usuario')) {
+                <p class="err">Ingresá tu usuario o correo.</p>
+            }
+        </div>
+
+        <div class="field">
+        <label for="l-contrasena">Contraseña</label>
+        <input id="l-contrasena" type="password" formControlName="contrasena" [class.error]="invalido('contrasena')" />
+            @if (invalido('contrasena')) {
+                <p class="err">Ingresá tu contraseña.</p>
+            }
+        </div>
+
+        <button class="btn btn-rojo btn-block" type="submit" [disabled]="form.invalid">Ingresar</button>
+        
+        <p class="switch">¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
+    </form>
+</div>

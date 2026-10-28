@@ -1,0 +1,96 @@
+<div class="wrap contenedor">
+    <form class="card" [formGroup]="form" (ngSubmit)="registrar()">
+        <div class="grid2">
+        <div class="field">
+            <label for="r-nombre">Nombre</label>
+            <input id="r-nombre" formControlName="nombre" [class.error]="invalido('nombre')" />
+            @if (invalido('nombre')) {
+            <p class="err">Ingresá tu nombre.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-apellido">Apellido</label>
+            <input id="r-apellido" formControlName="apellido" [class.error]="invalido('apellido')" />
+            @if (invalido('apellido')) {
+            <p class="err">Ingresá tu apellido.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-email">Correo</label>
+            <input id="r-email" type="email" formControlName="email" [class.error]="invalido('email')" />
+            @if (invalido('email')) {
+            <p class="err">Ingresá un correo válido.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-usuario">Nombre de usuario</label>
+            <input id="r-usuario" formControlName="nombreUsuario" [class.error]="invalido('nombreUsuario')" />
+            @if (invalido('nombreUsuario')) {
+            <p class="err">Ingresá un nombre de usuario.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-contrasena">Contraseña</label>
+            <input id="r-contrasena" type="password" formControlName="contrasena" [class.error]="invalido('contrasena')" />
+            <p class="hint">Mínimo 8 caracteres, una mayúscula y un número.</p>
+            @if (invalido('contrasena')) {
+            <p class="err">La contraseña no cumple el formato.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-repetir">Repetir contraseña</label>
+            <input id="r-repetir" type="password" formControlName="repetirContrasena" [class.error]="invalido('repetirContrasena')" />
+            @if (invalido('repetirContrasena')) {
+            <p class="err">Repetí tu contraseña.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-fecha">Fecha de nacimiento</label>
+            <input id="r-fecha" type="date" formControlName="fechaNacimiento" [class.error]="invalido('fechaNacimiento')" />
+            @if (invalido('fechaNacimiento')) {
+            <p class="err">Ingresá tu fecha de nacimiento.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="r-equipo">Equipo favorito <span class="chip">opcional</span></label>
+            <select id="r-equipo" formControlName="equipoFavorito">
+            <option value="">Ninguno</option>
+            <option>Alpine</option>
+            <option>Aston Martin</option>
+            <option>Audi</option>
+            <option>Cadillac</option>
+            <option>Ferrari</option>
+            <option>Haas</option>
+            <option>McLaren</option>
+            <option>Mercedes</option>
+            <option>Racing Bulls</option>
+            <option>Red Bull</option>
+            <option>Williams</option>
+            </select>
+        </div>
+        </div>
+
+        <div class="field">
+        <label for="r-imagen">Foto de perfil <span class="chip">opcional</span></label>
+        <input id="r-imagen" type="file" accept="image/*" (change)="elegirImagen($event)" />
+        </div>
+
+        <div class="field">
+        <label for="r-descripcion">Descripción breve</label>
+        <textarea id="r-descripcion" formControlName="descripcion" [class.error]="invalido('descripcion')"></textarea>
+        @if (invalido('descripcion')) {
+            <p class="err">Escribí una descripción de hasta 300 caracteres.</p>
+        }
+        </div>
+
+        <button class="btn btn-rojo btn-block" type="submit" [disabled]="form.invalid">Crear cuenta</button>
+        <p class="switch">¿Ya tenés cuenta? <a routerLink="/login">Ingresá</a></p>
+    </form>
+</div>
