@@ -1,0 +1,8 @@
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a.activo {
+    background-color: rgb(236, 10, 10);
+}
