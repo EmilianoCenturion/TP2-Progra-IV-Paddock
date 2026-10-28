@@ -37,14 +37,14 @@ export class Login {
 
     this.authService.login(this.form.getRawValue()).subscribe({
       next: (usuario) => {
-        localStorage.setItem('usuario', JSON.stringify(usuario))
-        this.router.navigate(["/publicaciones"])
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        this.router.navigate(["/publicaciones"]);
       }, 
       error: (err) => {
         if (err.status === 0) {
           this.mensajeError.set("No pudimos conectar con el servidor")
         } else {
-          this.mensajeError.set(err.error.message)
+          this.mensajeError.set(err.error.message);
         }
       }})
   }
