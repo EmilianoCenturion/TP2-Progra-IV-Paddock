@@ -1,4 +1,6 @@
-<div class="wrap contenedor">
+<div class="wrap auth">
+    <app-hero />
+    
     <form class="card" [formGroup]="form" (ngSubmit)="registrar()">
         
         @if (mensajeError()) {

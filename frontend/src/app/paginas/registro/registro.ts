@@ -2,9 +2,10 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../servicios/auth';
+import { Hero } from '../../componentes/hero/hero';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, Hero],
   selector: 'app-registro',
   styleUrl: './registro.css',
   templateUrl: './registro.html',
