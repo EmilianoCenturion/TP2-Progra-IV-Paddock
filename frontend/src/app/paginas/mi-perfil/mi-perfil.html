@@ -1,0 +1,40 @@
+@if (usuario(); as u) {
+    <div class="wrap perfil" [style.--equipo]="colorEquipo(u.equipoFavorito)">
+
+        <section class="cabecera">
+        <div class="banner">
+            <span class="marca">{{ u.equipoFavorito || 'Paddock' }}</span>
+        </div>
+
+        <div class="identidad">
+            @if (u.imagenUrl) {
+            <img class="foto" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
+            } @else {
+            <div class="foto inicial">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
+            }
+
+            <div class="nombres">
+            <h2>{{ u.nombre }} {{ u.apellido }}</h2>
+            <p class="usuario">&#64;{{ u.nombreUsuario }}</p>
+            </div>
+        </div>
+
+        <p class="bio">{{ u.descripcion }}</p>
+
+        <ul class="chips">
+            <li><span>Equipo</span>{{ u.equipoFavorito || 'Sin equipo' }}</li>
+            <li><span>Nacimiento</span>{{ u.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</li>
+            <li><span>Correo</span>{{ u.email }}</li>
+            <li><span>Perfil</span>{{ u.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}</li>
+        </ul>
+        </section>
+
+        <section class="publicaciones">
+        <h3>Mis últimas publicaciones</h3>
+        <div class="card vacio">
+            <p>Todavía no publicaste nada. ¿Qué te pareció la última carrera?</p>
+        </div>
+        </section>
+
+    </div>
+}

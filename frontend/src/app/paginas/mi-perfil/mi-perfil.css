@@ -1,0 +1,135 @@
+.perfil {
+  max-width: 900px;
+}
+
+/* ---------- banner ---------- */
+.cabecera {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--r);
+  overflow: hidden;
+  padding-bottom: 24px;
+}
+
+.banner {
+  height: 170px;
+  background: var(--equipo);
+  position: relative;
+  overflow: hidden;
+}
+
+.marca {
+  position: absolute;
+  right: 20px;
+  bottom: -14px;
+  font-size: 5rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ---------- foto y nombre ---------- */
+.identidad {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  padding: 0 24px;
+  margin-top: -56px;
+  position: relative;
+}
+
+.foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid var(--superficie);
+  background: var(--superficie-2);
+  flex: none;
+}
+
+.inicial {
+  display: grid;
+  place-items: center;
+  font-size: 2.6rem;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.nombres {
+  padding-bottom: 8px;
+  min-width: 0;
+}
+
+.nombres h2 {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.usuario {
+  color: var(--texto-suave);
+}
+
+.bio {
+  padding: 0 24px;
+  margin: 18px 0;
+  max-width: 65ch;
+  font-size: 1.05rem;
+}
+
+/* ---------- datos ---------- */
+.chips {
+  list-style: none;
+  padding: 0 24px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chips li {
+  background: var(--superficie-2);
+  border: 1px solid var(--borde);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+.chips span {
+  color: var(--texto-suave);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 8px;
+}
+
+/* ---------- publicaciones ---------- */
+.publicaciones {
+  margin-top: 32px;
+}
+
+.publicaciones h3 {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.vacio p {
+  color: var(--texto-suave);
+}
+
+@media (max-width: 600px) {
+  .identidad {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .marca {
+    font-size: 3rem;
+  }
+}

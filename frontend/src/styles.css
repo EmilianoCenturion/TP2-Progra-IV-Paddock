@@ -11,13 +11,7 @@
     --exito: #00D26A;
     --aviso: #FFD400;
     --violeta: #A020F0;
-    /* colores de equipo (solo como franjas) */
-    --alpine: #FF87BC;
-    --ferrari: #E8002D;
-    --mclaren: #FF8000;
-    --mercedes: #27F4D2;
-    --redbull: #3671C6;
-    --aston: #229971;
+    --negro: #4a4a4a;
     --f-titulo: 'Titillium Web', system-ui, sans-serif;
     --f-texto: 'Titillium Web', system-ui, sans-serif;
     --f-dato: 'Roboto Mono', ui-monospace, monospace;
