@@ -8,7 +8,7 @@
         </nav>
 
         @if (usuario(); as u) {
-            <div class="yo">
+            <div class="yo" [style.--equipo]="colorEquipo(u.equipoFavorito)">
                 @if (u.imagenUrl) {
                     <img class="avatar" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
                 } @else {

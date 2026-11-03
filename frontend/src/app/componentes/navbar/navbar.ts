@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../servicios/auth';
+import { colorEquipo } from '../../utils/equipos';
 
 @Component({
   imports: [ RouterLink, RouterLinkActive ],
@@ -14,6 +15,8 @@ export class Navbar {
   private router = inject(Router);
 
   usuario = this.authService.usuario;
+
+  colorEquipo = colorEquipo;
 
   salir() {
     this.authService.cerrarSesion();
