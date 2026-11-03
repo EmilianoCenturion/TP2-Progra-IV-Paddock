@@ -1,34 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { memoryStorage } from 'multer';
 import { PublicacionesService } from './publicaciones.service.js';
-import { CreatePublicacioneDto } from './dto/create-publicaciones.dto.js';
-import { UpdatePublicacioneDto } from './dto/update-publicaciones.dto.js';
+import { CreatePublicacionDto } from './dto/create-publicaciones.dto.js';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('publicaciones')
 export class PublicacionesController {
   constructor(private readonly publicacionesService: PublicacionesService) {}
 
   @Post()
-  create(@Body() createPublicacioneDto: CreatePublicacioneDto) {
-    return this.publicacionesService.create(createPublicacioneDto);
+  @UseInterceptors(FileInterceptor('imagen', { storage: memoryStorage() }))
+  crear(@Body() dto: CreatePublicacionDto, @UploadedFile() imagen?: Express.Multer.File) {
+    return this.publicacionesService.crear(dto, imagen);
   }
-
-  @Get()
-  findAll() {
-    return this.publicacionesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.publicacionesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePublicacioneDto: UpdatePublicacioneDto) {
-    return this.publicacionesService.update(+id, updatePublicacioneDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.publicacionesService.remove(+id);
-  }
+  
 }
