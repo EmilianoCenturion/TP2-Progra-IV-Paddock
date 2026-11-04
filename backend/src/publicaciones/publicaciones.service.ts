@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Publicacion, PublicacionDocument } from './entities/publicacion.entity.js';
 import { Model, Types } from  'mongoose';
@@ -57,4 +57,82 @@ export class PublicacionesService {
         return { publicaciones, total};
     }
 
+    async eliminar(id: string, usuario: string, perfil: string) {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new BadRequestException("El ID no es correcto")
+        }
+
+        const publicacion = await this.publicacionModel.findOne({ _id: id, activa: true });
+
+        if (!publicacion) {
+            throw new NotFoundException("La publicacion no existe");
+        }
+
+        const esCreador = publicacion.autor.toString() === usuario;
+
+        const esAdmin = perfil === "administrador";
+
+        if (!esCreador && !esAdmin) {
+            throw new ForbiddenException("No tiene permiso para eliminar la publicacion");
+        }
+
+        publicacion.activa = false;
+
+        await publicacion.save();
+
+        return { message: "Publicacion eliminada"};
+    }
+
+    async darLike(id: string, usuario: string) {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new BadRequestException("El ID no es correcto")
+        }
+
+        const publicacion = await this.publicacionModel.findOne({ _id: id, activa: true });
+
+        if (!publicacion) {
+            throw new NotFoundException("La publicacion no existe");
+        }
+
+        const yaDioLike = publicacion.likes.some((like) => like.toString() === usuario);
+
+        if (yaDioLike) {
+            throw new ConflictException("Ya le diste like a esta publicacion");
+        }
+
+        publicacion.likes.push(new Types.ObjectId(usuario));
+
+        publicacion.cantidadLikes = publicacion.likes.length;
+
+        await publicacion.save();
+
+        return { cantidadLikes: publicacion.cantidadLikes }
+    }
+
+    async quitarLike(id: string, usuario: string) {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new BadRequestException("El ID no es correcto")
+        }
+
+        const publicacion = await this.publicacionModel.findOne({ _id: id, activa: true });
+
+        if (!publicacion) {
+            throw new NotFoundException("La publicacion no existe");
+        }
+
+        const yaDioLike = publicacion.likes.some((like) => like.toString() === usuario);
+
+        if (!yaDioLike) {
+            throw new ConflictException("No se le dio like a esta publicacion");
+        }
+
+        publicacion.likes = publicacion.likes.filter( (like) => like.toString() !== usuario);
+
+        publicacion.cantidadLikes = publicacion.likes.length;
+
+        await publicacion.save();
+
+        return { cantidadLikes: publicacion.cantidadLikes }
+    }
+    
 }
