@@ -1,1 +1,45 @@
 
+<main class="wrap feed">
+    <header class="feed-cabecera">
+        <h1>Publicaciones</h1>
+
+        <div class="feed-orden">
+            <button type="button" [class.activo]="orden() === 'fecha'" (click)="cambiarOrden('fecha')">Recientes</button>
+            <button type="button" [class.activo]="orden() === 'likes'" (click)="cambiarOrden('likes')">Más likes</button>
+        </div>
+    </header>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    @for (publicacion of publicaciones(); track publicacion._id) {
+        <app-publicacion-card
+            [publicacion]="publicacion"
+            [meGusta]="dioLike(publicacion)"
+            [puedeEliminar]="puedeEliminar(publicacion)"
+            (like)="alternarLike(publicacion)"
+            (eliminar)="aEliminar.set(publicacion)"
+        />
+    }
+
+    <nav class="feed-paginas">
+        <button class="btn btn-sm" type="button" [disabled]="pagina() === 0" (click)="cambiarPagina(pagina() - 1)">Anterior</button>
+        <span class="mono">Página {{ pagina() + 1 }}</span>
+        <button class="btn btn-sm" type="button" [disabled]="(pagina() + 1) * limite >= total()" (click)="cambiarPagina(pagina() + 1)">Siguiente</button>
+    </nav>
+
+    @if (aEliminar(); as publicacion) {
+        <div class="overlay on">
+            <div class="card modal" role="dialog" aria-modal="true" aria-labelledby="titulo-eliminar">
+                <h2 id="titulo-eliminar">Eliminar publicación</h2>
+                <p class="sub">¿Querés eliminar "{{ publicacion.titulo }}"?</p>
+                <div class="actions">
+                    <button class="btn" type="button" (click)="aEliminar.set(null)">Cancelar</button>
+                    <button class="btn btn-peligro" type="button" (click)="confirmarEliminar()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+</main>

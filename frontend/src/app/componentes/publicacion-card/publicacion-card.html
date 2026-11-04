@@ -1,0 +1,41 @@
+<article class="publi" [style.--equipo]="colorEquipo(publicacion.autor.equipoFavorito)">
+    <div class="publi-portada" [class.sin-foto]="!publicacion.imagenUrl">
+        @if (publicacion.imagenUrl) {
+            <img [src]="publicacion.imagenUrl" [alt]="publicacion.titulo" />
+        }
+        <h2>{{ publicacion.titulo }}</h2>
+    </div>
+
+    <div class="publi-cuerpo">
+        <div class="publi-datos">
+            @if (publicacion.autor.imagenUrl) {
+                <img class="avatar" [src]="publicacion.autor.imagenUrl" [alt]="publicacion.autor.nombreUsuario" />
+            } @else {
+                <div class="avatar">{{ publicacion.autor.nombre[0] }}{{ publicacion.autor.apellido[0] }}</div>
+            }
+
+            <div class="publi-autor">
+                <div class="publi-usuario">
+                    <strong>&#64;{{ publicacion.autor.nombreUsuario }}</strong>
+                    
+                    @if (publicacion.autor.equipoFavorito) {
+                        <span class="publi-equipo">{{ publicacion.autor.equipoFavorito }}</span>
+                    }
+                </div>
+
+                <time class="mono">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</time>
+
+            </div>
+
+            <button class="publi-like mono" type="button" [class.activo]="meGusta" [attr.aria-pressed]="meGusta" (click)="like.emit()">
+                {{ meGusta ? '♥' : '♡' }} {{ publicacion.cantidadLikes }}
+            </button>
+        </div>
+
+        <p>{{ publicacion.mensaje }}</p>
+
+        @if (puedeEliminar) {
+            <button class="btn btn-sm btn-peligro publi-eliminar" type="button" (click)="eliminar.emit()">Eliminar</button>
+        }
+    </div>
+</article>

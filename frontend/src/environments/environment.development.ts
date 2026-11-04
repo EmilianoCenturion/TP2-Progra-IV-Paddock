@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: "https://tp-2-progra-iv-paddock.vercel.app"
+    apiUrl: "http://localhost:3000"
 };

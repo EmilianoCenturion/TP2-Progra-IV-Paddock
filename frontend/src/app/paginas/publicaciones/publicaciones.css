@@ -1,0 +1,44 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.feed-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.feed-cabecera h1 {
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.feed-orden button {
+    background: none;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    color: var(--texto-suave);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 6px 12px;
+}
+
+.feed-orden button.activo {
+    color: var(--texto);
+    border-bottom-color: var(--rojo);
+}
+
+.feed-paginas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+}
