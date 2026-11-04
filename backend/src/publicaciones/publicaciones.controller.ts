@@ -4,7 +4,7 @@ import { PublicacionesService } from './publicaciones.service.js';
 import { CreatePublicacionDto } from './dto/create-publicaciones.dto.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js';
-import { DeletePublicacionDto } from './dto/delete-publiacion.dto.js';
+import { DeletePublicacionDto } from './dto/delete-publicacion.dto.js';
 import { LikePublicacionDto } from './dto/like-publicacion.dto.js';
 
 @Controller('publicaciones')
