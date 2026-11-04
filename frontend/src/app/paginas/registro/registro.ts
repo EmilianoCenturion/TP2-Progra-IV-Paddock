@@ -78,7 +78,7 @@ export class Registro {
 
     this.authService.registro(datos).subscribe({
       next: () => {
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/login"], { state: { registrado: true } });
       },
       error: (err) => {
         if (err.status === 0) {

@@ -21,3 +21,12 @@
     color: var(--texto-suave);
 }
 
+.msg-ok {
+    border-left: 4px solid var(--exito);
+    background: rgba(0, 210, 106, 0.12);
+    color: var(--exito);
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}

@@ -13,6 +13,7 @@ import { Hero } from '../../componentes/hero/hero';
 export class Login {
 
   mensajeError = signal("");
+  registrado = signal(history.state?.registrado === true);
 
   constructor (private authService: Auth, private router: Router) {}
 
@@ -33,6 +34,8 @@ export class Login {
   }
 
   ingresar() {
+
+    this.registrado.set(false);
 
     this.mensajeError.set("")
 
