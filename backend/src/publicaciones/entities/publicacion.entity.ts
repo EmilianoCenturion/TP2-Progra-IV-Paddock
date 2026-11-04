@@ -20,6 +20,9 @@ export class Publicacion {
     @Prop({ type:[{ type: mongoose.Schema.Types.ObjectId, ref: "Usuario"}], default: [] })
     likes: mongoose.Types.ObjectId[];
 
+    @Prop({ default: 0 })
+    cantidadLikes: number;
+
     @Prop({default: true})
     activa: boolean;
 }

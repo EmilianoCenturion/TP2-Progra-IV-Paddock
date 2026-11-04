@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Get, Body, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { memoryStorage } from 'multer';
 import { PublicacionesService } from './publicaciones.service.js';
 import { CreatePublicacionDto } from './dto/create-publicaciones.dto.js';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js';
 
 @Controller('publicaciones')
 export class PublicacionesController {
@@ -14,4 +15,8 @@ export class PublicacionesController {
     return this.publicacionesService.crear(dto, imagen);
   }
   
+  @Get()
+  listar(@Query() filtros: ListarPublicacionesDto) {
+    return this.publicacionesService.listar(filtros);
+  }
 }
