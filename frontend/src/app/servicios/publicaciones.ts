@@ -9,8 +9,14 @@ export class PublicacionesService {
     private httpClient = inject(HttpClient);
     
 
-    listar(orden: string, offset: number, limit: number) {
-        return this.httpClient.get<RespuestaPublicaciones>(`${environment.apiUrl}/publicaciones?orden=${orden}&offset=${offset}&limit=${limit}`);
+    listar(orden: string, offset: number, limit: number, usuario?: string) {
+        let url = `${environment.apiUrl}/publicaciones?orden=${orden}&offset=${offset}&limit=${limit}`;
+
+        if (usuario) {
+            url += `&usuario=${usuario}`;
+        }
+
+        return this.httpClient.get<RespuestaPublicaciones>(url);
     }
 
     eliminar(id: string, usuario: string, perfil: string) {

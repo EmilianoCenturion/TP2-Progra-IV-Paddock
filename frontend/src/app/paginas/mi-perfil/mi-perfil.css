@@ -133,3 +133,9 @@
     font-size: 3rem;
   }
 }
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
