@@ -3,9 +3,10 @@ import { PublicacionCard } from '../../componentes/publicacion-card/publicacion-
 import { Publicacion } from '../../modelos/publicacion';
 import { PublicacionesService } from '../../servicios/publicaciones';
 import { Auth } from '../../servicios/auth';
+import { CrearPublicacion } from '../../componentes/crear-publicacion/crear-publicacion';
 
 @Component({
-  imports: [PublicacionCard],
+  imports: [PublicacionCard, CrearPublicacion],
   selector: 'app-publicaciones',
   styleUrl: './publicaciones.css',
   templateUrl: './publicaciones.html',
@@ -15,6 +16,7 @@ export class Publicaciones {
 
   usuario = inject(Auth).usuario;
   aEliminar = signal<Publicacion | null>(null);
+  creando = signal(false);
 
   publicaciones = signal<Publicacion[]>([]);
   total = signal(0);
@@ -97,5 +99,11 @@ export class Publicaciones {
         this.error.set('No pudimos eliminar la publicación');
       },
     });
+  }
+
+  alCrear() {
+    this.creando.set(false);
+    this.pagina.set(0);
+    this.cargar();
   }
 }

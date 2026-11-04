@@ -1,0 +1,36 @@
+<form class="card modal crear" role="dialog" aria-modal="true" aria-labelledby="titulo-crear" [formGroup]="form" (ngSubmit)="publicar(archivo)">
+    <h2 id="titulo-crear">Nueva publicación</h2>
+
+    <div class="field">
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" placeholder="¿De qué querés hablar?" formControlName="titulo" />
+        @if (form.controls.titulo.touched && form.controls.titulo.invalid) {
+            <span class="err">Ingresá un título</span>
+        }
+    </div>
+
+    <div class="field">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="3" placeholder="Contá tu opinión sobre la carrera..." formControlName="mensaje"></textarea>
+        @if (form.controls.mensaje.touched && form.controls.mensaje.invalid) {
+            <span class="err">Ingresá un mensaje</span>
+        }
+    </div>
+
+    <div class="field">
+        <label for="imagen">Imagen (opcional)</label>
+        <input #archivo id="imagen" type="file" accept="image/*" (change)="elegirImagen($event)" />
+        <span class="hint">Máximo 1 MB.</span>
+    </div>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    <div class="actions">
+        <button class="btn" type="button" [disabled]="enviando()" (click)="cancelada.emit()">Cancelar</button>
+        <button class="btn btn-rojo" type="submit" [disabled]="enviando()">
+            {{ enviando() ? 'Publicando...' : 'Publicar' }}
+        </button>
+    </div>
+</form>

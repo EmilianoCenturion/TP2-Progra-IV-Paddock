@@ -1,12 +1,14 @@
 
 <main class="wrap feed">
     <header class="feed-cabecera">
-        <h1>Publicaciones</h1>
+        
 
         <div class="feed-orden">
             <button type="button" [class.activo]="orden() === 'fecha'" (click)="cambiarOrden('fecha')">Recientes</button>
             <button type="button" [class.activo]="orden() === 'likes'" (click)="cambiarOrden('likes')">Más likes</button>
         </div>
+
+        <button class="btn btn-rojo btn-sm" type="button" (click)="creando.set(true)">+ Nueva publicación</button>
     </header>
 
     @if (error()) {
@@ -42,4 +44,9 @@
         </div>
     }
 
+    @if (creando()) {
+        <div class="overlay on">
+            <app-crear-publicacion (creada)="alCrear()" (cancelada)="creando.set(false)" />
+        </div>
+    }
 </main>

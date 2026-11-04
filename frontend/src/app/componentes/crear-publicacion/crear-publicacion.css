@@ -1,0 +1,14 @@
+:host {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+}
+
+.crear {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+}
+
+.crear h2 {
+    margin: 0 0 14px;
+}
