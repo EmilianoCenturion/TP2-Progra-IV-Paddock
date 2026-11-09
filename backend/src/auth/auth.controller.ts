@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, UploadedFile, UseInterceptors, Headers } from '@nestjs/common';
 import { memoryStorage } from 'multer';
 import { RegistroUsuarioDto } from './dto/registro.dto.js';
 import { AuthService } from './auth.service.js';
@@ -21,5 +21,17 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     login(@Body() dto: LoginUsuarioDto) {
         return this.authService.login(dto);
+    }
+
+    @Post('autorizar')
+    @HttpCode(HttpStatus.OK)
+    autorizar(@Headers('authorization') authorization?: string) {
+        return this.authService.autorizar(authorization?.split(' ')[1]);
+    }
+
+    @Post('refrescar')
+    @HttpCode(HttpStatus.OK)
+    refrescar(@Headers('authorization') authorization?: string) {
+        return this.authService.refrescar(authorization?.split(' ')[1]);
     }
 }

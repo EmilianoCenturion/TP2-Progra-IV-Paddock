@@ -36,4 +36,7 @@ export class UsuariosService {
     return !!resultado;
   }
 
+  buscarPorId(id: string) {
+    return this.usuarioModel.findById(id).exec();
+  }
 }
