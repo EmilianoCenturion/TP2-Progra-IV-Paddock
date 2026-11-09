@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule, Validators, FormGroup } from '@angula
 import { RouterLink, Router } from '@angular/router';
 import { Auth } from '../../servicios/auth';
 import { Hero } from '../../componentes/hero/hero';
+import { Sesion } from '../../servicios/sesion';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink, Hero],
@@ -15,7 +16,7 @@ export class Login {
   mensajeError = signal("");
   registrado = signal(history.state?.registrado === true);
 
-  constructor (private authService: Auth, private router: Router) {}
+  constructor (private authService: Auth, private router: Router, private sesion: Sesion) {}
 
   form = new FormGroup({
     usuario: new FormControl("", {
@@ -40,8 +41,9 @@ export class Login {
     this.mensajeError.set("")
 
     this.authService.login(this.form.getRawValue()).subscribe({
-      next: (usuario) => {
-        this.authService.guardarSesion(usuario);
+      next: (respuesta) => {
+        this.authService.guardarSesion(respuesta);
+        this.sesion.iniciar();
         this.router.navigate(["/publicaciones"]);
       }, 
       error: (err) => {

@@ -11,3 +11,8 @@ export interface Usuario {
     habilitado: boolean;
     equipoFavorito?: string;
 }
+
+export interface RespuestaAuth {
+    usuario: Usuario;
+    token: string;
+}
