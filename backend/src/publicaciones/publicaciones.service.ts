@@ -11,7 +11,7 @@ export class PublicacionesService {
 
     constructor(@InjectModel(Publicacion.name) private readonly publicacionModel: Model<PublicacionDocument>, private readonly imagenesService: ImagenesService) {}
 
-    async crear(dto: CreatePublicacionDto, imagen?: Express.Multer.File) {
+    async crear(dto: CreatePublicacionDto, autorId: string, imagen?: Express.Multer.File) {
         let imagenUrl: string | undefined;
 
         if (imagen) {
@@ -25,7 +25,7 @@ export class PublicacionesService {
             imagenUrl = await this.imagenesService.subirImagen(imagen, 'publicaciones')
         }
 
-        const publicacion = await this.publicacionModel.create({ ...dto, autor: new Types.ObjectId(dto.autor), imagenUrl});
+        const publicacion = await this.publicacionModel.create({ ...dto, autor: new Types.ObjectId(autorId), imagenUrl});
 
         return publicacion.populate('autor', 'nombre apellido nombreUsuario imagenUrl equipoFavorito');
     }

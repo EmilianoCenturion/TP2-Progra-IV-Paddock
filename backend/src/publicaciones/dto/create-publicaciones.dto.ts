@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreatePublicacionDto {
 
@@ -9,8 +9,4 @@ export class CreatePublicacionDto {
     @IsString()
     @IsNotEmpty({ message: "Ingresa el mensaje de la publicacion"})
     mensaje: string;
-
-    @IsMongoId({message: "El autor no es valido"})
-    autor: string
-
 }

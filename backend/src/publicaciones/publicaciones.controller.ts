@@ -1,39 +1,39 @@
-import { Controller, Post, Get, Body, UploadedFile, UseInterceptors, Query, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, UploadedFile, UseInterceptors, Query, Delete, Param, Req, UseGuards } from '@nestjs/common';
 import { memoryStorage } from 'multer';
 import { PublicacionesService } from './publicaciones.service.js';
 import { CreatePublicacionDto } from './dto/create-publicaciones.dto.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js';
-import { DeletePublicacionDto } from './dto/delete-publicacion.dto.js';
-import { LikePublicacionDto } from './dto/like-publicacion.dto.js';
+import { JwtGuard } from '../auth/jwt.guard.js';
 
+@UseGuards(JwtGuard)
 @Controller('publicaciones')
 export class PublicacionesController {
   constructor(private readonly publicacionesService: PublicacionesService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('imagen', { storage: memoryStorage() }))
-  crear(@Body() dto: CreatePublicacionDto, @UploadedFile() imagen?: Express.Multer.File) {
-    return this.publicacionesService.crear(dto, imagen);
+  crear(@Body() dto: CreatePublicacionDto, @Req() req: any, @UploadedFile() imagen?: Express.Multer.File) {
+    return this.publicacionesService.crear(dto, req.usuario.sub, imagen);
   }
-  
+
   @Get()
   listar(@Query() filtros: ListarPublicacionesDto) {
     return this.publicacionesService.listar(filtros);
   }
 
-  @Delete(":id")
-  eliminar(@Param('id') id: string, @Body() dto: DeletePublicacionDto) {
-    return this.publicacionesService.eliminar(id, dto.usuario, dto.perfil);
+  @Delete(':id')
+  eliminar(@Param('id') id: string, @Req() req: any) {
+    return this.publicacionesService.eliminar(id, req.usuario.sub, req.usuario.perfil);
   }
 
-  @Post(":id/like")
-  darLike(@Param('id') id: string, @Body() dto: LikePublicacionDto) {
-    return this.publicacionesService.darLike(id, dto.usuario)
+  @Post(':id/like')
+  darLike(@Param('id') id: string, @Req() req: any) {
+    return this.publicacionesService.darLike(id, req.usuario.sub);
   }
-  
-  @Delete(":id/like")
-  quitarLike(@Param('id') id: string, @Body() dto: LikePublicacionDto) {
-    return this.publicacionesService.quitarLike(id, dto.usuario)
+
+  @Delete(':id/like')
+  quitarLike(@Param('id') id: string, @Req() req: any) {
+    return this.publicacionesService.quitarLike(id, req.usuario.sub);
   }
 }
