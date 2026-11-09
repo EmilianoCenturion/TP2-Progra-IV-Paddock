@@ -19,24 +19,20 @@ export class PublicacionesService {
         return this.httpClient.get<RespuestaPublicaciones>(url);
     }
 
-    eliminar(id: string, usuario: string, perfil: string) {
-        return this.httpClient.delete(`${environment.apiUrl}/publicaciones/${id}`, {
-            body: { usuario, perfil } 
-        })
+    eliminar(id: string) {
+        return this.httpClient.delete(`${environment.apiUrl}/publicaciones/${id}`)
     }
 
     crear(datos: FormData) {
         return this.httpClient.post<Publicacion>(`${environment.apiUrl}/publicaciones`, datos);
     }
 
-    darLike(id: string, usuario: string) {
-        return this.httpClient.post<{ cantidadLikes: number }>(`${environment.apiUrl}/publicaciones/${id}/like`, { usuario })
+    darLike(id: string) {
+        return this.httpClient.post<{ cantidadLikes: number }>(`${environment.apiUrl}/publicaciones/${id}/like`, {});
     }
 
-    quitarLike(id: string, usuario: string) {
-        return this.httpClient.delete<{ cantidadLikes: number }>(`${environment.apiUrl}/publicaciones/${id}/like`, {
-            body: { usuario }
-        }) 
+    quitarLike(id: string) {
+        return this.httpClient.delete<{ cantidadLikes: number }>(`${environment.apiUrl}/publicaciones/${id}/like`, {}) 
     }
 }
 

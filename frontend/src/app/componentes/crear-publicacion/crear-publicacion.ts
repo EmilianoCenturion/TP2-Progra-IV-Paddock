@@ -41,7 +41,6 @@ export class CrearPublicacion {
     const datos = new FormData();
     datos.append('titulo', this.form.getRawValue().titulo);
     datos.append('mensaje', this.form.getRawValue().mensaje);
-    datos.append('autor', usuario._id);
 
     if (this.imagen) {
       datos.append('imagen', this.imagen);

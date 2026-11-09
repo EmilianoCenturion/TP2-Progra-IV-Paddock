@@ -51,8 +51,8 @@ export class MiPerfil {
     if (!id) return;
 
     const pedido = this.dioLike(publicacion)
-      ? this.publicacionesService.quitarLike(publicacion._id, id)
-      : this.publicacionesService.darLike(publicacion._id, id);
+      ? this.publicacionesService.quitarLike(publicacion._id)
+      : this.publicacionesService.darLike(publicacion._id);
 
     pedido.subscribe({
       next: () => this.cargar(),

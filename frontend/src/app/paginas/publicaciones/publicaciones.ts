@@ -70,8 +70,8 @@ export class Publicaciones {
     if (!id) return;
 
     const pedido = this.dioLike(publicacion) 
-    ? this.publicacionesService.quitarLike(publicacion._id, id)
-    : this.publicacionesService.darLike(publicacion._id, id);
+    ? this.publicacionesService.quitarLike(publicacion._id)
+    : this.publicacionesService.darLike(publicacion._id);
 
     pedido.subscribe({ 
       next: () => this.cargar(),
@@ -84,7 +84,7 @@ export class Publicaciones {
     const usuario = this.usuario();
     if (!publicacion || !usuario) return;
 
-    this.publicacionesService.eliminar(publicacion._id, usuario._id, usuario.perfil).subscribe({
+    this.publicacionesService.eliminar(publicacion._id).subscribe({
       next: () => {
         this.aEliminar.set(null);
 
