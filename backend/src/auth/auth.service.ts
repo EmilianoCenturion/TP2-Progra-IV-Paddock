@@ -73,9 +73,10 @@ export class AuthService {
     return { usuario: usuarioSinContrasena, token };
   }
 
-  private generarToken(usuario: { _id: any; nombreUsuario: string; perfil: string }) {
+  private generarToken(usuario: { _id: any; email: string; nombreUsuario: string; perfil: string }) {
     return this.jwtService.signAsync({
       sub: usuario._id.toString(),
+      email: usuario.email,
       nombreUsuario: usuario.nombreUsuario,
       perfil: usuario.perfil,
     });
@@ -104,7 +105,7 @@ export class AuthService {
   }
 
   async refrescar(token?: string) {
-    const { sub, nombreUsuario, perfil } = await this.verificar(token);
-    return { token: await this.jwtService.signAsync({ sub, nombreUsuario, perfil }) };
+    const { sub, email, nombreUsuario, perfil } = await this.verificar(token);
+    return { token: await this.jwtService.signAsync({ sub, email, nombreUsuario, perfil }) };
   }
 }
