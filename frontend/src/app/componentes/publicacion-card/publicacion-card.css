@@ -99,11 +99,6 @@
     overflow-wrap: anywhere;
 }
 
-.publi-eliminar {
-    display: block;
-    margin: 14px 0 0 auto;
-}
-
 .publi-usuario {
     display: flex;
     align-items: baseline;
@@ -129,4 +124,86 @@
     height: auto;
     max-height: 520px;
     object-fit: contain;
+}
+
+.publi-acciones {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.publi-acciones .btn-peligro {
+    margin-left: auto;
+}
+
+.publi-comentar {
+    color: var(--texto);
+}
+
+.publi-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--fondo);
+    border-top: 1px solid var(--borde);
+    padding: 14px 18px 16px;
+}
+
+.publi-comentarios h3 {
+    margin: 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--texto-suave);
+    border-left: 3px solid var(--rojo);
+    padding-left: 8px;
+}
+
+.publi-comentarios h3 span {
+    color: var(--texto);
+    margin-left: 4px;
+}
+
+.publi-comentario {
+    display: flex;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.publi-comentario .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.65rem;
+    object-fit: cover;
+}
+
+.publi-comentario > div {
+    min-width: 0;
+}
+
+.publi-comentario p {
+    margin: 2px 0 0;
+    color: var(--texto-suave);
+    overflow-wrap: anywhere;
+}
+
+.publi-comentario .editado {
+    margin-left: 6px;
+    color: var(--aviso);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+}
+
+.publi-ver-todos {
+    align-self: flex-start;
+    color: var(--texto-suave);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+}
+
+.publi-ver-todos:hover {
+    color: var(--rojo-hover);
 }

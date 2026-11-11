@@ -32,10 +32,46 @@
             </button>
         </div>
 
-        <p>{{ publicacion.mensaje }}</p>
+                <p>{{ publicacion.mensaje }}</p>
 
-        @if (puedeEliminar) {
-            <button class="btn btn-sm btn-peligro publi-eliminar" type="button" (click)="eliminar.emit()">Eliminar</button>
-        }
+        <div class="publi-acciones">
+            @if (conLink) {
+                <a class="btn btn-sm publi-comentar" [routerLink]="['/publicaciones', publicacion._id]">Comentar</a>
+            }
+
+            @if (puedeEliminar) {
+                <button class="btn btn-sm btn-peligro" type="button" (click)="eliminar.emit()">Eliminar</button>
+            }
+        </div>
     </div>
+
+    @if (comentarios().length > 0) {
+        <section class="publi-comentarios">
+            <h3 class="mono">Comentarios <span>{{ publicacion.cantidadComentarios }}</span></h3>
+
+            @for (comentario of comentarios(); track comentario._id) {
+                <div class="publi-comentario">
+                    @if (comentario.autor.imagenUrl) {
+                        <img class="avatar" [src]="comentario.autor.imagenUrl" [alt]="comentario.autor.nombreUsuario" />
+                    } @else {
+                        <div class="avatar">{{ comentario.autor.nombre[0] }}{{ comentario.autor.apellido[0] }}</div>
+                    }
+
+                    <div>
+                        <strong>&#64;{{ comentario.autor.nombreUsuario }}</strong>
+                        @if (comentario.modificado) {
+                            <span class="editado mono">editado</span>
+                        }
+                        <p>{{ comentario.mensaje }}</p>
+                    </div>
+                </div>
+            }
+
+            @if (publicacion.cantidadComentarios > comentarios().length) {
+                <a class="publi-ver-todos mono" [routerLink]="['/publicaciones', publicacion._id]">
+                    Ver los {{ publicacion.cantidadComentarios }} comentarios →
+                </a>
+            }
+        </section>
+    }
 </article>

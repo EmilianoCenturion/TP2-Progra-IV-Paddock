@@ -15,6 +15,7 @@ export interface Publicacion {
     autor: Autor;
     likes: string[];
     cantidadLikes: number;
+    cantidadComentarios: number;
     activa: boolean;
     createdAt: string;
 }

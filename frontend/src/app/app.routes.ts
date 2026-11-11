@@ -24,6 +24,11 @@ export const routes: Routes = [
         canActivate: [logueadoGuard]
     },
     {
+        path: "publicaciones/:id",
+        loadComponent: () => import("./paginas/publicacion-detalle/publicacion-detalle").then(c => c.PublicacionDetalle),
+        canActivate: [logueadoGuard]
+    },
+    {
         path: "mi-perfil",
         loadComponent: () => import("./paginas/mi-perfil/mi-perfil").then(c => c.MiPerfil),
         canActivate: [logueadoGuard]

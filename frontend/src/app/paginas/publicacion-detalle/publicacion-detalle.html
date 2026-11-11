@@ -1,0 +1,70 @@
+<main class="wrap detalle">
+    <a class="volver mono" routerLink="/publicaciones">← Volver al feed</a>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    @if (publicacion(); as publicacion) {
+        <app-publicacion-card
+            [publicacion]="publicacion"
+            [meGusta]="dioLike(publicacion)"
+            [conLink]="false"
+            (like)="alternarLike(publicacion)"
+        />
+
+        <section class="comentarios">
+            <h2>Comentarios <span class="count">{{ total() }}</span></h2>
+
+            <div class="comentar">
+                <textarea [formControl]="mensaje" rows="3" maxlength="500" placeholder="¿Qué opinás de esta publicación?"></textarea>
+            
+                <div class="comentar-pie">
+                    <span class="mono">{{ mensaje.value.length }}/500</span>
+                    <button class="btn btn-rojo btn-sm" type="button" [disabled]="mensaje.invalid" (click)="comentar()">Comentar</button>
+                </div>
+            </div>
+
+
+            @for (comentario of comentarios(); track comentario._id) {
+                <article class="comentario">
+                    @if (comentario.autor.imagenUrl) {
+                        <img class="avatar" [src]="comentario.autor.imagenUrl" [alt]="comentario.autor.nombreUsuario" />
+                    } @else {
+                        <div class="avatar">{{ comentario.autor.nombre[0] }}{{ comentario.autor.apellido[0] }}</div>
+                    }
+
+                    <div class="comentario-cuerpo">
+                        <div class="comentario-cabecera">
+                            <strong>&#64;{{ comentario.autor.nombreUsuario }}</strong>
+                            <time class="mono">{{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}</time>
+                            @if (comentario.modificado) {
+                                <span class="editado mono">editado</span>
+                            }
+                        </div>
+                        
+                        @if (editandoId() === comentario._id) {
+                            <textarea class="editar-texto" [formControl]="mensajeEditado" rows="2" maxlength="500"></textarea>
+                            <div class="editar-acciones">
+                                <button class="btn btn-sm" type="button" (click)="cancelarEdicion()">Cancelar</button>
+                                <button class="btn btn-rojo btn-sm" type="button" [disabled]="mensajeEditado.invalid" (click)="guardarEdicion(comentario)">Guardar</button>
+                            </div>
+                        } @else {
+                            <p>{{ comentario.mensaje }}</p>
+
+                            @if (esMio(comentario)) {
+                                <button class="comentario-editar mono" type="button" (click)="empezarEdicion(comentario)">Editar</button>
+                            }
+                        }
+                    </div>
+                </article>
+            } @empty {
+                <p class="vacio">Todavía no hay comentarios. ¡Largá vos primero!</p>
+            }
+
+            @if (comentarios().length < total()) {
+                <button class="btn btn-sm cargar-mas" type="button" (click)="cargarMas()">Cargar más</button>
+            }
+        </section>
+    }
+</main>

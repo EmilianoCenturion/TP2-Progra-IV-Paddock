@@ -34,6 +34,10 @@ export class PublicacionesService {
     quitarLike(id: string) {
         return this.httpClient.delete<{ cantidadLikes: number }>(`${environment.apiUrl}/publicaciones/${id}/like`, {}) 
     }
+
+    buscarPorId(id: string) {
+        return this.httpClient.get<Publicacion>(`${environment.apiUrl}/publicaciones/${id}`);
+    }
 }
 
 
