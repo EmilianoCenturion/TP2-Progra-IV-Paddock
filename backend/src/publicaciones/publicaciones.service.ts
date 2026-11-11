@@ -135,4 +135,19 @@ export class PublicacionesService {
         return { cantidadLikes: publicacion.cantidadLikes }
     }
     
+    async buscarPorId(id: string) {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new BadRequestException("El ID no es correcto")
+        }
+
+        const publicacion = await this.publicacionModel.findOne({ _id: id, activa: true })
+        .populate('autor', 'nombre apellido nombreUsuario imagenUrl equipoFavorito')
+        .exec()
+
+        if (!publicacion) {
+            throw new NotFoundException("Publicacion no encontrada");
+        }
+        
+        return publicacion;
+    }
 }

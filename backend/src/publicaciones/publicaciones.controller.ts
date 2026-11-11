@@ -21,6 +21,11 @@ export class PublicacionesController {
   listar(@Query() filtros: ListarPublicacionesDto) {
     return this.publicacionesService.listar(filtros);
   }
+  
+  @Get(':id')
+  buscarPorId(@Param('id') id: string) {
+    return this.publicacionesService.buscarPorId(id);
+  }
 
   @Delete(':id')
   eliminar(@Param('id') id: string, @Req() req: any) {
