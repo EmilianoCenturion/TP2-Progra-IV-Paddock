@@ -4,10 +4,12 @@ import { Auth } from '../../servicios/auth';
 import { PublicacionesService } from '../../servicios/publicaciones';
 import { Publicacion } from '../../modelos/publicacion';
 import { PublicacionCard } from '../../componentes/publicacion-card/publicacion-card';
-import { colorEquipo } from '../../utils/equipos';
+import { InicialesPipe } from '../../pipes/iniciales-pipe';
+import { ColorEquipo } from '../../directivas/color-equipo';
+import { ImagenRespaldo } from '../../directivas/imagen-respaldo';
 
 @Component({
-  imports: [DatePipe, PublicacionCard],
+  imports: [DatePipe, PublicacionCard, InicialesPipe, ColorEquipo, ImagenRespaldo],
   selector: 'app-mi-perfil',
   styleUrl: './mi-perfil.css',
   templateUrl: './mi-perfil.html',
@@ -19,9 +21,6 @@ export class MiPerfil {
   publicaciones = signal<Publicacion[]>([]);
   cargando = signal(true);
   error = signal('');
-
-  colorEquipo = colorEquipo;
-
   ngOnInit() {
     this.cargar();
   }

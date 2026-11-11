@@ -1,8 +1,10 @@
 import { Component, computed, input } from '@angular/core';
+import { ImagenRespaldo } from '../../directivas/imagen-respaldo';
 
 const COLORES = ['#E10600', '#FF8000', '#27F4D2', '#3671C6', '#229971', '#FF87BC', '#B6BABD', '#64C4FF', '#6692FF', '#FFD400'];
 
 @Component({
+  imports: [ImagenRespaldo],
   selector: 'app-grafico',
   styleUrl: './grafico.css',
   templateUrl: './grafico.html',

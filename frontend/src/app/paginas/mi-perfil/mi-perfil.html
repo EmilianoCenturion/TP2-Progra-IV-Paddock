@@ -1,5 +1,5 @@
 @if (usuario(); as u) {
-    <div class="wrap perfil" [style.--equipo]="colorEquipo(u.equipoFavorito)">
+    <div class="wrap perfil" [appColorEquipo]="u.equipoFavorito">
 
         <section class="cabecera">
         <div class="banner">
@@ -8,9 +8,9 @@
 
         <div class="identidad">
             @if (u.imagenUrl) {
-            <img class="foto" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
+            <img class="foto" appImagenRespaldo [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
             } @else {
-            <div class="foto inicial">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
+            <div class="foto inicial">{{ u | iniciales }}</div>
             }
 
             <div class="nombres">

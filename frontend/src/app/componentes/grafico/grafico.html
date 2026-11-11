@@ -9,7 +9,7 @@
                     </div>
 
                     @if (imagenes()[$index]) {
-                        <img class="barra-foto" [src]="imagenes()[$index]" [alt]="etiquetas()[$index]" />
+                        <img class="barra-foto" appImagenRespaldo [src]="imagenes()[$index]" [alt]="etiquetas()[$index]" />
                     } @else {
                         <span class="barra-foto">{{ etiquetas()[$index][0] }}</span>
                     }

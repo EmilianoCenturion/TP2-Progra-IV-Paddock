@@ -1,7 +1,7 @@
-<article class="publi" [style.--equipo]="colorEquipo(publicacion.autor.equipoFavorito)">
+<article class="publi" [appColorEquipo]="publicacion.autor.equipoFavorito">
     <div class="publi-portada" [class.sin-foto]="!publicacion.imagenUrl">
         @if (publicacion.imagenUrl) {
-            <img [src]="publicacion.imagenUrl" [alt]="publicacion.titulo" />
+            <img appImagenRespaldo [src]="publicacion.imagenUrl" [alt]="publicacion.titulo" />
         }
         <h2>{{ publicacion.titulo }}</h2>
     </div>
@@ -9,9 +9,9 @@
     <div class="publi-cuerpo">
         <div class="publi-datos">
             @if (publicacion.autor.imagenUrl) {
-                <img class="avatar" [src]="publicacion.autor.imagenUrl" [alt]="publicacion.autor.nombreUsuario" />
+                <img class="avatar" appImagenRespaldo [src]="publicacion.autor.imagenUrl" [alt]="publicacion.autor.nombreUsuario" />
             } @else {
-                <div class="avatar">{{ publicacion.autor.nombre[0] }}{{ publicacion.autor.apellido[0] }}</div>
+                <div class="avatar">{{ publicacion.autor | iniciales }}</div>
             }
 
             <div class="publi-autor">
@@ -23,16 +23,16 @@
                     }
                 </div>
 
-                <time class="mono">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</time>
+                <time class="mono" [title]="publicacion.createdAt | date: 'dd/MM/yyyy HH:mm'">{{ publicacion.createdAt | tiempoRelativo }}</time>
 
             </div>
 
             <button class="publi-like mono" type="button" [class.activo]="meGusta" [attr.aria-pressed]="meGusta" (click)="like.emit()">
-                {{ meGusta ? '♥' : '♡' }} {{ publicacion.cantidadLikes }}
+                {{ meGusta ? '♥' : '♡' }} {{ publicacion.cantidadLikes | abreviarNumero }}
             </button>
         </div>
 
-                <p>{{ publicacion.mensaje }}</p>
+        <p>{{ publicacion.mensaje }}</p>
 
         <div class="publi-acciones">
             @if (conLink) {
@@ -50,11 +50,11 @@
             <h3 class="mono">Comentarios <span>{{ publicacion.cantidadComentarios }}</span></h3>
 
             @for (comentario of comentarios(); track comentario._id) {
-                <div class="publi-comentario" [style.--equipo]="colorEquipo(comentario.autor.equipoFavorito)">
+                <div class="publi-comentario" [appColorEquipo]="comentario.autor.equipoFavorito">
                     @if (comentario.autor.imagenUrl) {
-                        <img class="avatar" [src]="comentario.autor.imagenUrl" [alt]="comentario.autor.nombreUsuario" />
+                        <img class="avatar" appImagenRespaldo [src]="comentario.autor.imagenUrl" [alt]="comentario.autor.nombreUsuario" />
                     } @else {
-                        <div class="avatar">{{ comentario.autor.nombre[0] }}{{ comentario.autor.apellido[0] }}</div>
+                        <div class="avatar">{{ comentario.autor | iniciales }}</div>
                     }
 
                     <div>

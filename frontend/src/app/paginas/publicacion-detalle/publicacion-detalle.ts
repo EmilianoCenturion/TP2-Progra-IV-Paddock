@@ -8,10 +8,13 @@ import { PublicacionesService } from '../../servicios/publicaciones';
 import { ComentariosService } from '../../servicios/comentarios';
 import { Auth } from '../../servicios/auth';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { colorEquipo } from '../../utils/equipos';
+import { InicialesPipe } from '../../pipes/iniciales-pipe';
+import { TiempoRelativoPipe } from '../../pipes/tiempo-relativo-pipe';
+import { ColorEquipo } from '../../directivas/color-equipo';
+import { ImagenRespaldo } from '../../directivas/imagen-respaldo';
 
 @Component({
-  imports: [PublicacionCard, RouterLink, DatePipe, ReactiveFormsModule],
+  imports: [PublicacionCard, RouterLink, DatePipe, ReactiveFormsModule, InicialesPipe, TiempoRelativoPipe, ColorEquipo, ImagenRespaldo],
   selector: 'app-publicacion-detalle',
   styleUrl: './publicacion-detalle.css',
   templateUrl: './publicacion-detalle.html',
@@ -22,8 +25,6 @@ export class PublicacionDetalle {
 
   usuario = inject(Auth).usuario;
   id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? '';
-  colorEquipo = colorEquipo;
-
   publicacion = signal<Publicacion | null>(null);
   editandoId = signal<string | null>(null);
   comentarios = signal<Comentario[]>([]);

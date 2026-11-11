@@ -4,10 +4,14 @@ import { RouterLink } from '@angular/router';
 import { Publicacion } from '../../modelos/publicacion';
 import { Comentario } from '../../modelos/comentario';
 import { ComentariosService } from '../../servicios/comentarios';
-import { colorEquipo } from '../../utils/equipos';
+import { InicialesPipe } from '../../pipes/iniciales-pipe';
+import { TiempoRelativoPipe } from '../../pipes/tiempo-relativo-pipe';
+import { AbreviarNumeroPipe } from '../../pipes/abreviar-numero-pipe';
+import { ColorEquipo } from '../../directivas/color-equipo';
+import { ImagenRespaldo } from '../../directivas/imagen-respaldo';
 
 @Component({
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, InicialesPipe, TiempoRelativoPipe, AbreviarNumeroPipe, ColorEquipo, ImagenRespaldo],
   selector: 'app-publicacion-card',
   styleUrl: './publicacion-card.css',
   templateUrl: './publicacion-card.html',
@@ -24,9 +28,6 @@ export class PublicacionCard {
   eliminar = output();
 
   comentarios = signal<Comentario[]>([]);
-
-  colorEquipo = colorEquipo;
-
   ngOnInit() {
     if (this.conLink && this.publicacion.cantidadComentarios > 0) {
       this.comentariosService.listar(this.publicacion._id, 0, 2).subscribe({

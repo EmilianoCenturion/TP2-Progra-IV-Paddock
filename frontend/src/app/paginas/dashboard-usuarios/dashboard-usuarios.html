@@ -13,12 +13,12 @@
 
     <ul class="pilotos">
         @for (u of usuarios(); track u._id; let i = $index) {
-            <li class="piloto" [class.apagado]="!u.habilitado" [style.--equipo]="colorEquipo(u.equipoFavorito)">
+            <li class="piloto" [class.apagado]="!u.habilitado" [appColorEquipo]="u.equipoFavorito">
                 <div class="piloto-cuerpo">
                     @if (u.imagenUrl) {
-                        <img class="piloto-foto" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
+                        <img class="piloto-foto" appImagenRespaldo [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
                     } @else {
-                        <div class="piloto-foto">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
+                        <div class="piloto-foto">{{ u | iniciales }}</div>
                     }
 
                     <div class="piloto-texto">

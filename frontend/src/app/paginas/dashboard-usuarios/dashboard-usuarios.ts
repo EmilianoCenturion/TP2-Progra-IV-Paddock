@@ -3,10 +3,12 @@ import { CrearUsuario } from '../../componentes/crear-usuario/crear-usuario';
 import { Usuario } from '../../modelos/usuario';
 import { UsuariosService } from '../../servicios/usuarios';
 import { Auth } from '../../servicios/auth';
-import { colorEquipo } from '../../utils/equipos';
+import { InicialesPipe } from '../../pipes/iniciales-pipe';
+import { ColorEquipo } from '../../directivas/color-equipo';
+import { ImagenRespaldo } from '../../directivas/imagen-respaldo';
 
 @Component({
-  imports: [CrearUsuario],
+  imports: [CrearUsuario, InicialesPipe, ColorEquipo, ImagenRespaldo],
   selector: 'app-dashboard-usuarios',
   styleUrl: './dashboard-usuarios.css',
   templateUrl: './dashboard-usuarios.html',
@@ -20,9 +22,6 @@ export class DashboardUsuarios implements OnInit{
   aDeshabilitar = signal<Usuario | null>(null);
   creando = signal(false);
   error = signal('');
-  
-  colorEquipo = colorEquipo;
-
   ngOnInit() {
     this.cargar();
   }
