@@ -40,6 +40,11 @@ export const routes: Routes = [
         canActivate: [logueadoGuard, adminGuard]
     },
     {
+        path: "dashboard/estadisticas",
+        loadComponent: () => import("./paginas/dashboard-estadisticas/dashboard-estadisticas").then(c => c.DashboardEstadisticas),
+        canActivate: [logueadoGuard, adminGuard]
+    },
+    {
         path: "**",
         redirectTo: "/login"
     }

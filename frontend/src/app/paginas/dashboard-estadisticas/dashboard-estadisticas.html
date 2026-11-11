@@ -1,0 +1,69 @@
+<main class="wrap panel">
+    <header class="panel-cabecera">
+        <h1>Estadísticas</h1>
+    </header>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    <section class="tablero">
+        <div class="tablero-cabecera">
+            <h2>Publicaciones por usuario</h2>
+
+            <form class="filtro" [formGroup]="filtroUsuarios" (ngSubmit)="cargarUsuarios()">
+                <label>Desde <input type="date" formControlName="desde" /></label>
+                <label>Hasta <input type="date" formControlName="hasta" /></label>
+                <button class="btn btn-sm" type="submit">Ver</button>
+            </form>
+        </div>
+
+        @if (usuarios().valores.length > 0) {
+            <app-grafico
+                tipo="bar"
+                [etiquetas]="usuarios().etiquetas"
+                [valores]="usuarios().valores"
+                [colores]="usuarios().colores ?? []"
+                [imagenes]="usuarios().imagenes ?? []"
+            />
+        } @else {
+            <p class="sin-datos">No hay publicaciones en ese período.</p>
+        }
+    </section>
+
+    <section class="tablero">
+        <div class="tablero-cabecera">
+            <h2>Comentarios por día</h2>
+
+            <form class="filtro" [formGroup]="filtroDias" (ngSubmit)="cargarDias()">
+                <label>Desde <input type="date" formControlName="desde" /></label>
+                <label>Hasta <input type="date" formControlName="hasta" /></label>
+                <button class="btn btn-sm" type="submit">Ver</button>
+            </form>
+        </div>
+
+        @if (dias().valores.length > 0) {
+            <app-grafico tipo="line" [etiquetas]="dias().etiquetas" [valores]="dias().valores" />
+        } @else {
+            <p class="sin-datos">No hay comentarios en ese período.</p>
+        }
+    </section>
+
+    <section class="tablero">
+        <div class="tablero-cabecera">
+            <h2>Comentarios por publicación</h2>
+
+            <form class="filtro" [formGroup]="filtroPublicaciones" (ngSubmit)="cargarPublicaciones()">
+                <label>Desde <input type="date" formControlName="desde" /></label>
+                <label>Hasta <input type="date" formControlName="hasta" /></label>
+                <button class="btn btn-sm" type="submit">Ver</button>
+            </form>
+        </div>
+
+        @if (publicaciones().valores.length > 0) {
+            <app-grafico tipo="pie" [etiquetas]="publicaciones().etiquetas" [valores]="publicaciones().valores" />
+        } @else {
+            <p class="sin-datos">No hay comentarios en ese período.</p>
+        }
+    </section>
+</main>

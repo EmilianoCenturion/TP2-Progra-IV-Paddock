@@ -1,0 +1,58 @@
+@switch (tipo()) {
+    @case ('bar') {
+        <div class="barras">
+            @for (valor of valores(); track $index) {
+                <div class="barra-col" [style.--color]="colores()[$index] || 'var(--rojo)'">
+                    <div class="barra-pista">
+                        <span class="barra-valor mono">{{ valor }}</span>
+                        <div class="barra" [style.height.%]="porcentaje(valor)"></div>
+                    </div>
+
+                    @if (imagenes()[$index]) {
+                        <img class="barra-foto" [src]="imagenes()[$index]" [alt]="etiquetas()[$index]" />
+                    } @else {
+                        <span class="barra-foto">{{ etiquetas()[$index][0] }}</span>
+                    }
+
+                    <span class="barra-etiqueta">{{ etiquetas()[$index] }}</span>
+                </div>
+            }
+        </div>
+    }
+
+    @case ('line') {
+        <div class="linea">
+            <div class="linea-area">
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <polyline [attr.points]="linea()" vector-effect="non-scaling-stroke" />
+                </svg>
+
+                @for (p of puntos(); track $index) {
+                    <span class="punto" [style.left.%]="p.x" [style.top.%]="p.y" [attr.data-valor]="valores()[$index]"></span>
+                }
+            </div>
+
+            <div class="linea-etiquetas">
+                @for (etiqueta of etiquetas(); track $index) {
+                    <span>{{ etiqueta }}</span>
+                }
+            </div>
+        </div>
+    }
+
+    @case ('pie') {
+        <div class="torta-contenedor">
+            <div class="torta" [style.background]="torta()"></div>
+
+            <ul class="leyenda">
+                @for (etiqueta of etiquetas(); track $index) {
+                    <li>
+                        <span class="color" [style.background]="coloresTorta[$index % coloresTorta.length]"></span>
+                        {{ etiqueta }}
+                        <strong>{{ valores()[$index] }}</strong>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}

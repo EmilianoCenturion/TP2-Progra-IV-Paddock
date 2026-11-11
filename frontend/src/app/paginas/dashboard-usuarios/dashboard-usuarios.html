@@ -2,9 +2,8 @@
     <header class="panel-cabecera">
         <div>
             <h1>Usuarios</h1>
-            <p class="panel-sub mono">{{ usuarios().length }} registrados</p>
+            <p class="panel-sub">{{ usuarios().length }} inscriptos</p>
         </div>
-
         <button class="btn btn-rojo btn-sm" type="button" (click)="creando.set(true)">+ Nuevo usuario</button>
     </header>
 
@@ -12,40 +11,38 @@
         <p class="msg-err">{{ error() }}</p>
     }
 
-    <ul class="usuarios">
+    <ul class="pilotos">
         @for (u of usuarios(); track u._id; let i = $index) {
-            <li class="usuario-fila" [class.apagado]="!u.habilitado" [style.--equipo]="colorEquipo(u.equipoFavorito)">
-                <span class="usuario-pos mono">{{ i + 1 }}</span>
+            <li class="piloto" [class.apagado]="!u.habilitado" [style.--equipo]="colorEquipo(u.equipoFavorito)">
+                <div class="piloto-cuerpo">
+                    @if (u.imagenUrl) {
+                        <img class="piloto-foto" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
+                    } @else {
+                        <div class="piloto-foto">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
+                    }
 
-                @if (u.imagenUrl) {
-                    <img class="avatar" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
-                } @else {
-                    <div class="avatar">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
-                }
-
-                <div class="usuario-datos">
-                    <div class="usuario-nombre">
-                        <strong>&#64;{{ u.nombreUsuario }}</strong>
-                        @if (u.equipoFavorito) {
-                            <span class="usuario-equipo">{{ u.equipoFavorito }}</span>
-                        }
+                    <div class="piloto-texto">
+                        <span class="piloto-nombre">{{ u.nombre }} <strong>{{ u.apellido }}</strong></span>
+                        <span class="piloto-equipo">{{ u.equipoFavorito || 'Sin equipo' }}</span>
+                        <span class="piloto-dato">&#64;{{ u.nombreUsuario }}</span>
+                        <span class="piloto-dato">{{ u.email }}</span>
                     </div>
 
-                    <span>{{ u.nombre }} {{ u.apellido }} · {{ u.email }}</span>
+                    <span class="piloto-numero mono">#{{ i + 1 }}</span>
                 </div>
 
-                <div class="usuario-chips">
-                    <span class="chip" [class.yo]="u.perfil === 'administrador'">
-                        {{ u.perfil === 'administrador' ? 'Admin' : 'Usuario' }}
-                    </span>
-                    <span class="chip estado" [class.off]="!u.habilitado">
-                        {{ u.habilitado ? 'Habilitado' : 'Deshabilitado' }}
-                    </span>
-                </div>
+                <div class="piloto-pie">
+                    <div class="piloto-estado">
+                        <span [class.admin]="u.perfil === 'administrador'">
+                            {{ u.perfil === 'administrador' ? 'Admin' : 'Usuario' }}
+                        </span>
+                        <span [class.off]="!u.habilitado" [class.on]="u.habilitado">
+                            {{ u.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+                        </span>
+                    </div>
 
-                <div class="usuario-accion">
                     @if (u._id === usuario()?._id) {
-                        <span class="usuario-vos mono">Vos</span>
+                        <span class="vos">Vos</span>
                     } @else if (u.habilitado) {
                         <button class="btn btn-sm btn-peligro" type="button" (click)="aDeshabilitar.set(u)">Deshabilitar</button>
                     } @else {
