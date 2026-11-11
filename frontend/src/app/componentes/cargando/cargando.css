@@ -1,20 +1,48 @@
 .cargando {
     min-height: 100vh;
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 16px;
 }
 
-.spinner {
-    width: 48px;
-    height: 48px;
-    border: 5px solid #333;
-    border-top-color: var(--rojo);
+.cargando .logo {
+    font-size: 2.2rem;
+}
+
+.semaforo {
+    display: flex;
+    gap: 8px;
+    background: #000;
+    border: 2px solid var(--borde);
+    padding: 10px 12px;
+}
+
+.semaforo span {
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    animation: girar .8s linear infinite;
+    background: #3a1010;
+    animation: encender 2.5s infinite;
 }
 
-@keyframes girar {
-    to { transform: rotate(360deg); }
+.semaforo span:nth-child(2) { animation-delay: 0.3s; }
+.semaforo span:nth-child(3) { animation-delay: 0.6s; }
+.semaforo span:nth-child(4) { animation-delay: 0.9s; }
+.semaforo span:nth-child(5) { animation-delay: 1.2s; }
+
+@keyframes encender {
+    0%, 15% { background: #3a1010; }
+    20%, 85% { background: var(--rojo); }
+    90%, 100% { background: #3a1010; }
+}
+
+.cargando p {
+    margin: 0;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
 }

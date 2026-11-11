@@ -43,8 +43,7 @@ export class Login {
     this.authService.login(this.form.getRawValue()).subscribe({
       next: (respuesta) => {
         this.authService.guardarSesion(respuesta);
-        this.sesion.iniciar();
-        this.router.navigate(["/publicaciones"]);
+        this.sesion.validar();
       }, 
       error: (err) => {
         if (err.status === 0) {
