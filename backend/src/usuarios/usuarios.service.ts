@@ -1,7 +1,7 @@
-import { BadRequestException, ConflictException, Injectable} from '@nestjs/common';
+import { BadRequestException, ConflictException, flatten, Injectable, NotFoundException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario, UsuarioDocument } from './entities/usuario.entity.js';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { PasswordHasher } from '@nestjs/authentication';
 import { ImagenesService } from '../imagenes/imagenes.service.js';
 import { RegistroUsuarioDto } from '../auth/dto/registro.dto.js';
@@ -22,6 +22,12 @@ export class UsuariosService {
     .exec()
   }
 
+  listar() {
+    return this.usuarioModel.find()
+    .sort("-createdAt")
+    .exec();
+  }
+
   async existeEmail(email: string) {
     email = email.trim().toLowerCase();
     
@@ -40,6 +46,52 @@ export class UsuariosService {
 
   buscarPorId(id: string) {
     return this.usuarioModel.findById(id).exec();
+  }
+
+  private async buscarParaAdmin(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException("El ID no es correcto");
+    }
+
+    const usuario =  await this.usuarioModel.findById(id);
+
+    if (!usuario) {
+      throw new NotFoundException("El usuario no fue encontrado");
+    }
+
+    return usuario;
+  }
+
+  async deshabilitar(id: string, adminId: string) {
+    if (id === adminId) {
+      throw new BadRequestException("No podes deshabilitar tu propia cuenta");
+    }
+
+    const usuario = await this.buscarParaAdmin(id);
+
+    if (!usuario.habilitado) {
+      throw new ConflictException("El usuario ya esta deshabilitado");
+    }
+
+    usuario.habilitado = false;
+
+    await usuario.save()
+
+    return { message: "Usuario deshabilitado"}
+  }
+
+  async rehabilitar(id: string) {
+    const usuario = await this.buscarParaAdmin(id);
+
+    if (usuario.habilitado) {
+      throw new ConflictException("El usuario ya esta habilitado");
+    }
+
+    usuario.habilitado = true;
+
+    await usuario.save()
+
+    return { message: "Usuario habilitado"}
   }
 
   async registrar(dto: RegistroUsuarioDto, imagen?: Express.Multer.File, perfil = 'usuario') {

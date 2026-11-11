@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req, HttpCode, HttpStatus } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service.js';
-import { CreateUsuarioDto } from './dto/create-usuario.dto.js';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto.js';
+import { JwtGuard } from '../auth/jwt.guard.js';
+import { AdminGuard } from '../auth/admin.guard.js';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { CrearUsuarioDto } from './dto/crear-usuario.dto.js';
 
+@UseGuards(JwtGuard, AdminGuard)
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  /* @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
-  } */
-
-  /* @Get()
-  findAll() {
-    return this.usuariosService.findAll();
-  } */
-
-  /* @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usuariosService.findOne(+id);
-  } */
-
-  /* @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
-  } */
-
-  /* @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Get()
+  listar() {
+    return this.usuariosService.listar();
   }
-  return this.usuariosService.remove(+id); */
+
+  @Post()
+  @UseInterceptors(FileInterceptor('imagen', { storage: memoryStorage() }))
+  crear(@Body() dto: CrearUsuarioDto, @UploadedFile() imagen?: Express.Multer.File) {
+    return this.usuariosService.registrar(dto, imagen, dto.perfil);
+  }
+
+  @Delete(':id')
+  deshabilitar(@Param('id') id: string, @Req() req: any) {
+    return this.usuariosService.deshabilitar(id, req.usuario.sub);
+  }
+
+  @Post(':id/rehabilitar')
+  @HttpCode(HttpStatus.OK)
+  rehabilitar(@Param('id') id: string) {
+    return this.usuariosService.rehabilitar(id)
+  }
 }
