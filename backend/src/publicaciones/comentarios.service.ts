@@ -27,6 +27,10 @@ export class ComentariosService {
 
         const comentario = await this.comentarioModel.create({ mensaje: dto.mensaje, autor: new Types.ObjectId(autorId), publicacion: new Types.ObjectId(publicacionId)})
 
+        publicacion.cantidadComentarios++;
+
+        await publicacion.save();
+        
         return comentario.populate('autor', 'nombre apellido nombreUsuario imagenUrl equipoFavorito')
     }
 
