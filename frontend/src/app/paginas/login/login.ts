@@ -14,7 +14,6 @@ import { Sesion } from '../../servicios/sesion';
 export class Login {
 
   mensajeError = signal("");
-  registrado = signal(history.state?.registrado === true);
 
   constructor (private authService: Auth, private router: Router, private sesion: Sesion) {}
 
@@ -35,8 +34,6 @@ export class Login {
   }
 
   ingresar() {
-
-    this.registrado.set(false);
 
     this.mensajeError.set("")
 

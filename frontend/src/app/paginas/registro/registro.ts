@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../servicios/auth';
 import { Hero } from '../../componentes/hero/hero';
+import { Sesion } from '../../servicios/sesion';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, Hero],
+  imports: [ReactiveFormsModule, Hero],
   selector: 'app-registro',
   styleUrl: './registro.css',
   templateUrl: './registro.html',
@@ -18,7 +18,7 @@ export class Registro {
 
   imagen?: File;
 
-  constructor (private fb: FormBuilder, private authService: Auth, private router: Router) {
+  constructor (private fb: FormBuilder, private authService: Auth, private sesion: Sesion) {
     
     this.form = this.fb.group({
       nombre: ["", Validators.required],
@@ -77,8 +77,9 @@ export class Registro {
     datos.append("descripcion", this.form.value.descripcion);
 
     this.authService.registro(datos).subscribe({
-      next: () => {
-        this.router.navigate(["/login"], { state: { registrado: true } });
+      next: (respuesta) => {
+        this.authService.guardarSesion(respuesta);
+        this.sesion.validar();
       },
       error: (err) => {
         if (err.status === 0) {

@@ -2,10 +2,6 @@
     <app-hero />
     
     <form class="card" [formGroup]="form" (ngSubmit)="ingresar()">
-        
-        @if (registrado()) {
-            <div class="msg-ok" role="status">Tu registro fue exitoso. Ya podés iniciar sesión.</div>
-        }
 
         @if (mensajeError()) {
             <div class="msg-err">{{ mensajeError() }}</div>
