@@ -7,12 +7,15 @@ import { ImagenesModule } from '../imagenes/imagenes.module.js';
 import { ComentariosController } from './comentarios.controller.js';
 import { ComentariosService } from './comentarios.service.js';
 import { Comentario, ComentarioSchema } from './entities/comentario.entity.js';
+import { EstadisticasService } from './estadisticas.service.js';
+import { EstadisticasController } from './estadisticas.controller.js';
+
 @Module({
   imports: [MongooseModule.forFeature([
     { name: Publicacion.name, schema: PublicacionSchema },
     { name: Comentario.name, schema: ComentarioSchema},
     ]), ImagenesModule],
-  controllers: [PublicacionesController, ComentariosController],
-  providers: [PublicacionesService, ComentariosService],
+  controllers: [PublicacionesController, ComentariosController, EstadisticasController],
+  providers: [PublicacionesService, ComentariosService, EstadisticasService],
 })
 export class PublicacionesModule {}
