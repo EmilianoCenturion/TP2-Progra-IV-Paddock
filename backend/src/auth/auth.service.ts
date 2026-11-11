@@ -1,7 +1,6 @@
-import { BadRequestException, ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import { PasswordHasher } from '@nestjs/authentication';
-import { ImagenesService } from '../imagenes/imagenes.service.js';
 import { RegistroUsuarioDto } from './dto/registro.dto.js';
 import { LoginUsuarioDto } from './dto/login.dto.js';
 import { JwtService } from '@nestjs/jwt';
@@ -11,46 +10,15 @@ export class AuthService {
 
   constructor(private readonly usuariosService: UsuariosService, 
               private readonly passwordHasher: PasswordHasher,
-              private readonly imagenesService: ImagenesService,
               private readonly jwtService: JwtService) {}
   
   async registro(dto: RegistroUsuarioDto, imagen?: Express.Multer.File) {
-    if (dto.contrasena !== dto.repetirContrasena) {
-      throw new BadRequestException("Las contraseñas no coinciden");
-    }
 
-    if (await this.usuariosService.existeEmail(dto.email)) {
-      throw new ConflictException("Ese correo ya esta registrado");
-    }
+    const usuario = await this.usuariosService.registrar(dto, imagen);
 
-    if (await this.usuariosService.existeNombreUsuario(dto.nombreUsuario)) {
-      throw new ConflictException("Ese nombre de usuario ya esta en uso");
-    }
+    const token = await this.generarToken(usuario)
 
-    let imagenUrl: string | undefined;
-    
-    if (imagen) {
-      const esImagen = imagen.mimetype.startsWith("image/");
-      const pesoImagen = imagen.size < (2 * 1024 * 1024);
-
-      if (!esImagen || !pesoImagen) {
-        throw new BadRequestException("La imagen debe ser JPG, PNG o similar y pesar menos de 2 MB");
-      }
-
-      imagenUrl = await this.imagenesService.subirImagen(imagen, 'perfiles');
-    }
-
-    const contrasenaHasheada = await this.passwordHasher.hash(dto.contrasena);
-
-    const { repetirContrasena, ...datos} = dto;
-
-    const usuario = await this.usuariosService.crear({...datos, fechaNacimiento: new Date(dto.fechaNacimiento), contrasena: contrasenaHasheada, imagenUrl });
-
-    const { contrasena, ...usuarioSinContrasena } = usuario.toObject();
-
-    const token = await this.generarToken(usuarioSinContrasena)
-
-    return { usuario: usuarioSinContrasena, token};
+    return { usuario, token};
   }
 
   async login(dto: LoginUsuarioDto) {

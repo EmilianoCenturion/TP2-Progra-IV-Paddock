@@ -9,7 +9,6 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     UsuariosModule,
-    ImagenesModule,
     AuthenticationModule.forRoot({ globalGuard: false }),
     JwtModule.registerAsync({
       global: true,
