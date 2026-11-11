@@ -46,7 +46,7 @@ export class Sesion {
                     this.router.navigate(['/login']);
                 },
             });
-        }, 1500);
+        }, 3000);
     }
 
     extender() {
