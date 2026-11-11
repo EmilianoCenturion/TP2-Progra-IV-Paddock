@@ -1,0 +1,119 @@
+<form class="card modal crear-usuario" role="dialog" aria-modal="true" aria-labelledby="titulo-alta" [formGroup]="form" (ngSubmit)="crear()">
+    <h2 id="titulo-alta">Nuevo usuario</h2>
+
+    <div class="field">
+        <span class="etiqueta">Perfil</span>
+        <div class="perfiles">
+            <label class="perfil-opcion">
+                <input type="radio" formControlName="perfil" value="usuario" />
+                <span>Usuario</span>
+            </label>
+            <label class="perfil-opcion">
+                <input type="radio" formControlName="perfil" value="administrador" />
+                <span>Administrador</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="grid2">
+        <div class="field">
+            <label for="u-nombre">Nombre</label>
+            <input id="u-nombre" formControlName="nombre" [class.error]="invalido('nombre')" />
+            @if (invalido('nombre')) {
+                <p class="err">Ingresá el nombre.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-apellido">Apellido</label>
+            <input id="u-apellido" formControlName="apellido" [class.error]="invalido('apellido')" />
+            @if (invalido('apellido')) {
+                <p class="err">Ingresá el apellido.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-email">Correo</label>
+            <input id="u-email" type="email" formControlName="email" [class.error]="invalido('email')" />
+            @if (invalido('email')) {
+                <p class="err">Ingresá un correo válido.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-usuario">Nombre de usuario</label>
+            <input id="u-usuario" formControlName="nombreUsuario" [class.error]="invalido('nombreUsuario')" />
+            @if (invalido('nombreUsuario')) {
+                <p class="err">Ingresá un nombre de usuario.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-contrasena">Contraseña</label>
+            <input id="u-contrasena" type="password" formControlName="contrasena" [class.error]="invalido('contrasena')" />
+            <p class="hint">Mínimo 8 caracteres, una mayúscula y un número.</p>
+            @if (invalido('contrasena')) {
+                <p class="err">La contraseña no cumple el formato.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-repetir">Repetir contraseña</label>
+            <input id="u-repetir" type="password" formControlName="repetirContrasena" [class.error]="invalido('repetirContrasena')" />
+            @if (invalido('repetirContrasena')) {
+                <p class="err">Repetí la contraseña.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-fecha">Fecha de nacimiento</label>
+            <input id="u-fecha" type="date" formControlName="fechaNacimiento" [class.error]="invalido('fechaNacimiento')" />
+            @if (invalido('fechaNacimiento')) {
+                <p class="err">Ingresá la fecha de nacimiento.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="u-equipo">Equipo favorito <span class="chip">opcional</span></label>
+            <select id="u-equipo" formControlName="equipoFavorito">
+                <option value="">Ninguno</option>
+                <option>Alpine</option>
+                <option>Aston Martin</option>
+                <option>Audi</option>
+                <option>Cadillac</option>
+                <option>Ferrari</option>
+                <option>Haas</option>
+                <option>McLaren</option>
+                <option>Mercedes</option>
+                <option>Racing Bulls</option>
+                <option>Red Bull</option>
+                <option>Williams</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="u-imagen">Foto de perfil <span class="chip">opcional</span></label>
+        <input id="u-imagen" type="file" accept="image/*" (change)="elegirImagen($event)" />
+        <p class="hint">Máximo 1 MB.</p>
+    </div>
+
+    <div class="field">
+        <label for="u-descripcion">Descripción breve</label>
+        <textarea id="u-descripcion" formControlName="descripcion" [class.error]="invalido('descripcion')"></textarea>
+        @if (invalido('descripcion')) {
+            <p class="err">Escribí una descripción de hasta 300 caracteres.</p>
+        }
+    </div>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    <div class="actions">
+        <button class="btn" type="button" [disabled]="enviando()" (click)="cancelado.emit()">Cancelar</button>
+        <button class="btn btn-rojo" type="submit" [disabled]="form.invalid || enviando()">
+            {{ enviando() ? 'Creando...' : 'Crear usuario' }}
+        </button>
+    </div>
+</form>

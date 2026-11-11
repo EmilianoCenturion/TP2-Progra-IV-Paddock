@@ -1,0 +1,79 @@
+<main class="wrap panel">
+    <header class="panel-cabecera">
+        <div>
+            <h1>Usuarios</h1>
+            <p class="panel-sub mono">{{ usuarios().length }} registrados</p>
+        </div>
+
+        <button class="btn btn-rojo btn-sm" type="button" (click)="creando.set(true)">+ Nuevo usuario</button>
+    </header>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    <ul class="usuarios">
+        @for (u of usuarios(); track u._id; let i = $index) {
+            <li class="usuario-fila" [class.apagado]="!u.habilitado" [style.--equipo]="colorEquipo(u.equipoFavorito)">
+                <span class="usuario-pos mono">{{ i + 1 }}</span>
+
+                @if (u.imagenUrl) {
+                    <img class="avatar" [src]="u.imagenUrl" [alt]="u.nombreUsuario" />
+                } @else {
+                    <div class="avatar">{{ u.nombre[0] }}{{ u.apellido[0] }}</div>
+                }
+
+                <div class="usuario-datos">
+                    <div class="usuario-nombre">
+                        <strong>&#64;{{ u.nombreUsuario }}</strong>
+                        @if (u.equipoFavorito) {
+                            <span class="usuario-equipo">{{ u.equipoFavorito }}</span>
+                        }
+                    </div>
+
+                    <span>{{ u.nombre }} {{ u.apellido }} · {{ u.email }}</span>
+                </div>
+
+                <div class="usuario-chips">
+                    <span class="chip" [class.yo]="u.perfil === 'administrador'">
+                        {{ u.perfil === 'administrador' ? 'Admin' : 'Usuario' }}
+                    </span>
+                    <span class="chip estado" [class.off]="!u.habilitado">
+                        {{ u.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+                    </span>
+                </div>
+
+                <div class="usuario-accion">
+                    @if (u._id === usuario()?._id) {
+                        <span class="usuario-vos mono">Vos</span>
+                    } @else if (u.habilitado) {
+                        <button class="btn btn-sm btn-peligro" type="button" (click)="aDeshabilitar.set(u)">Deshabilitar</button>
+                    } @else {
+                        <button class="btn btn-sm" type="button" (click)="habilitar(u)">Habilitar</button>
+                    }
+                </div>
+            </li>
+        } @empty {
+            <li class="vacio">No hay usuarios cargados.</li>
+        }
+    </ul>
+
+    @if (aDeshabilitar(); as u) {
+        <div class="overlay on">
+            <div class="card modal" role="dialog" aria-modal="true" aria-labelledby="titulo-deshabilitar">
+                <h2 id="titulo-deshabilitar">Deshabilitar usuario</h2>
+                <p class="sub">¿Querés deshabilitar a &#64;{{ u.nombreUsuario }}? No va a poder iniciar sesión hasta que lo habilites de nuevo.</p>
+                <div class="actions">
+                    <button class="btn" type="button" (click)="aDeshabilitar.set(null)">Cancelar</button>
+                    <button class="btn btn-peligro" type="button" (click)="confirmarDeshabilitar()">Deshabilitar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (creando()) {
+        <div class="overlay on">
+            <app-crear-usuario (creado)="alCrear()" (cancelado)="creando.set(false)" />
+        </div>
+    }
+</main>
