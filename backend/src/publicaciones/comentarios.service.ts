@@ -35,25 +35,31 @@ export class ComentariosService {
     }
 
     async listar(publicacionId: string, filtros: ListarComentariosDto) {
-        if (!Types.ObjectId.isValid(publicacionId)) {
-            throw new BadRequestException("El ID no es correcto");
-        }
-        
-        const { offset = 0, limit= 5 } = filtros;
+    if (!Types.ObjectId.isValid(publicacionId)) {
+        throw new BadRequestException("El ID no es correcto");
+    }
 
-        const filtro = { publicacion: publicacionId};
+    const publicacion = await this.publicacionModel.findOne({ _id: publicacionId, activa: true });
 
-        const comentarios = await this.comentarioModel.find(filtro)
+    if (!publicacion) {
+        throw new NotFoundException("La publicacion no existe");
+    }
+
+    const { offset = 0, limit = 5 } = filtros;
+
+    const filtro = { publicacion: publicacionId };
+
+    const comentarios = await this.comentarioModel.find(filtro)
         .sort('-createdAt')
         .skip(offset * limit)
         .limit(limit)
         .populate('autor', 'nombre apellido nombreUsuario imagenUrl equipoFavorito')
         .exec();
 
-        const total = await this.comentarioModel.countDocuments(filtro);
+    const total = await this.comentarioModel.countDocuments(filtro);
 
-        return { comentarios, total };
-    }
+    return { comentarios, total };
+}
 
     async editar(publicacionId: string, id: string, usuarioId: string, dto: ComentarioDto) {
         if (!Types.ObjectId.isValid(publicacionId) || !Types.ObjectId.isValid(id)) {
