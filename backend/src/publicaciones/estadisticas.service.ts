@@ -33,7 +33,15 @@ export class EstadisticasService {
             { $group: { _id: '$autor', cantidad: { $sum: 1 } } },
             { $lookup: { from: 'usuarios', localField: '_id', foreignField: '_id', as: 'usuario' } },
             { $unwind: '$usuario' },
-            { $project: { _id: 0, nombreUsuario: '$usuario.nombreUsuario', cantidad: 1 } },
+            {
+                $project: {
+                    _id: 0,
+                    nombreUsuario: '$usuario.nombreUsuario',
+                    equipoFavorito: '$usuario.equipoFavorito',
+                    imagenUrl: '$usuario.imagenUrl',
+                    cantidad: 1,
+                },
+            },
             { $sort: { cantidad: -1 } },
         ]).exec();
     }
@@ -51,8 +59,8 @@ export class EstadisticasService {
         return this.comentarioModel.aggregate([
             { $match: { createdAt: this.rango(dto) } },
             { $group: { _id: '$publicacion', cantidad: { $sum: 1 } } },
-            { $lookup: { from: 'publicaciones', localField: '_id', foreignField: '_id', as: 'usuario' } },
-            { $unwind: '$usuario' },
+            { $lookup: { from: 'publicaciones', localField: '_id', foreignField: '_id', as: 'publicacion' } },
+            { $unwind: '$publicacion' },
             { $project: { _id: 0, titulo: '$publicacion.titulo', cantidad: 1 } },
             { $sort: { cantidad: -1 } },
             { $limit: 10 }
