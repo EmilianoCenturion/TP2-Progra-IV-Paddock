@@ -34,11 +34,12 @@
 
 .comentario {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     background: var(--superficie);
     border: 1px solid var(--borde);
+    border-left: 4px solid var(--equipo);
     border-radius: var(--r);
-    padding: 12px 14px;
+    padding: 14px 16px;
 }
 
 .comentario-cuerpo {
@@ -49,12 +50,14 @@
 .comentario-cabecera {
     display: flex;
     align-items: baseline;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
-    font-size: 0.9rem;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--borde);
 }
 
 .comentario-cabecera time {
+    margin-left: auto;
     color: var(--texto-suave);
     font-size: 0.78rem;
 }
@@ -66,7 +69,10 @@
 }
 
 .comentario p {
-    margin: 6px 0 0;
+    margin: 10px 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--texto);
     overflow-wrap: anywhere;
 }
 
@@ -130,11 +136,23 @@
     margin-top: 8px;
 }
 
+.comentario .avatar {
+    width: 42px;
+    height: 42px;
+    border-color: var(--equipo);
+    object-fit: cover;
+}
+
+.comentario-editar:hover {
+    color: var(--rojo-hover);
+}
+
 .comentario-editar {
+    display: block;
+    margin: 8px 0 0 auto;
     background: none;
     border: 0;
     padding: 0;
-    margin-top: 6px;
     color: var(--texto-suave);
     font-size: 0.72rem;
     text-transform: uppercase;
@@ -142,6 +160,8 @@
     cursor: pointer;
 }
 
-.comentario-editar:hover {
-    color: var(--rojo-hover);
+.comentario-equipo {
+    color: var(--equipo);
+    font-size: 0.82rem;
+    font-weight: 700;
 }

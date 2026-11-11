@@ -50,7 +50,7 @@
             <h3 class="mono">Comentarios <span>{{ publicacion.cantidadComentarios }}</span></h3>
 
             @for (comentario of comentarios(); track comentario._id) {
-                <div class="publi-comentario">
+                <div class="publi-comentario" [style.--equipo]="colorEquipo(comentario.autor.equipoFavorito)">
                     @if (comentario.autor.imagenUrl) {
                         <img class="avatar" [src]="comentario.autor.imagenUrl" [alt]="comentario.autor.nombreUsuario" />
                     } @else {

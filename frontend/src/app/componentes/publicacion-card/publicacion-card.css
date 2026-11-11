@@ -176,6 +176,7 @@
     height: 30px;
     font-size: 0.65rem;
     object-fit: cover;
+    border-color: var(--equipo);
 }
 
 .publi-comentario > div {

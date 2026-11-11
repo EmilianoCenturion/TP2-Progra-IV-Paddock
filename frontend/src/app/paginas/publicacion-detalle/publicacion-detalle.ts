@@ -8,6 +8,7 @@ import { PublicacionesService } from '../../servicios/publicaciones';
 import { ComentariosService } from '../../servicios/comentarios';
 import { Auth } from '../../servicios/auth';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { colorEquipo } from '../../utils/equipos';
 
 @Component({
   imports: [PublicacionCard, RouterLink, DatePipe, ReactiveFormsModule],
@@ -21,6 +22,7 @@ export class PublicacionDetalle {
 
   usuario = inject(Auth).usuario;
   id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? '';
+  colorEquipo = colorEquipo;
 
   publicacion = signal<Publicacion | null>(null);
   editandoId = signal<string | null>(null);

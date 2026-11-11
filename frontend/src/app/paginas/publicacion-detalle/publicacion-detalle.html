@@ -27,7 +27,7 @@
 
 
             @for (comentario of comentarios(); track comentario._id) {
-                <article class="comentario">
+                <article class="comentario" [style.--equipo]="colorEquipo(comentario.autor.equipoFavorito)">
                     @if (comentario.autor.imagenUrl) {
                         <img class="avatar" [src]="comentario.autor.imagenUrl" [alt]="comentario.autor.nombreUsuario" />
                     } @else {
@@ -37,6 +37,11 @@
                     <div class="comentario-cuerpo">
                         <div class="comentario-cabecera">
                             <strong>&#64;{{ comentario.autor.nombreUsuario }}</strong>
+                            
+                            @if (comentario.autor.equipoFavorito) {
+                                <span class="comentario-equipo">{{ comentario.autor.equipoFavorito }}</span>
+                            }
+
                             <time class="mono">{{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}</time>
                             @if (comentario.modificado) {
                                 <span class="editado mono">editado</span>
