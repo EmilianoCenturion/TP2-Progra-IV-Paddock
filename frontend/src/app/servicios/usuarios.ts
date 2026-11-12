@@ -23,4 +23,8 @@ export class UsuariosService {
     rehabilitar(id: string) {
         return this.httpClient.post(`${environment.apiUrl}/usuarios/${id}/rehabilitar`, {});
     }
+
+    editarPerfil(datos: { nombre: string; apellido: string; fechaNacimiento: string; descripcion: string; equipoFavorito: string }) {
+        return this.httpClient.put<Usuario>(`${environment.apiUrl}/usuarios/mi-perfil`, datos);
+    }
 }

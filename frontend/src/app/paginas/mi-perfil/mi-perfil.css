@@ -64,6 +64,11 @@
   min-width: 0;
 }
 
+.editar {
+  margin-left: auto;
+  margin-bottom: 14px;
+}
+
 .nombres h2 {
   font-size: 2rem;
   text-transform: uppercase;

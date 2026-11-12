@@ -7,9 +7,10 @@ import { PublicacionCard } from '../../componentes/publicacion-card/publicacion-
 import { InicialesPipe } from '../../pipes/iniciales-pipe';
 import { ColorEquipo } from '../../directivas/color-equipo';
 import { ImagenRespaldo } from '../../directivas/imagen-respaldo';
+import { EditarPerfil } from '../../componentes/editar-perfil/editar-perfil';
 
 @Component({
-  imports: [DatePipe, PublicacionCard, InicialesPipe, ColorEquipo, ImagenRespaldo],
+  imports: [DatePipe, PublicacionCard, InicialesPipe, ColorEquipo, ImagenRespaldo, EditarPerfil],
   selector: 'app-mi-perfil',
   styleUrl: './mi-perfil.css',
   templateUrl: './mi-perfil.html',
@@ -21,6 +22,8 @@ export class MiPerfil {
   publicaciones = signal<Publicacion[]>([]);
   cargando = signal(true);
   error = signal('');
+  editando = signal(false);
+
   ngOnInit() {
     this.cargar();
   }
@@ -39,6 +42,11 @@ export class MiPerfil {
         this.cargando.set(false);
       },
     });
+  }
+
+  alGuardar() {
+    this.editando.set(false);
+    this.cargar();
   }
 
   dioLike(publicacion: Publicacion) {

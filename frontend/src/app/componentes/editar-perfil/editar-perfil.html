@@ -1,0 +1,67 @@
+<form class="card modal editar-perfil" role="dialog" aria-modal="true" aria-labelledby="titulo-editar-perfil" [formGroup]="form" (ngSubmit)="guardar()">
+    <h2 id="titulo-editar-perfil">Editar perfil</h2>
+    <p class="sub">El correo y el nombre de usuario no se pueden cambiar.</p>
+
+    <div class="grid2">
+        <div class="field">
+            <label for="ep-nombre">Nombre</label>
+            <input id="ep-nombre" formControlName="nombre" [class.error]="invalido('nombre')" />
+            @if (invalido('nombre')) {
+                <p class="err">Ingresá tu nombre.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="ep-apellido">Apellido</label>
+            <input id="ep-apellido" formControlName="apellido" [class.error]="invalido('apellido')" />
+            @if (invalido('apellido')) {
+                <p class="err">Ingresá tu apellido.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="ep-fecha">Fecha de nacimiento</label>
+            <input id="ep-fecha" type="date" formControlName="fechaNacimiento" [class.error]="invalido('fechaNacimiento')" />
+            @if (invalido('fechaNacimiento')) {
+                <p class="err">Ingresá tu fecha de nacimiento.</p>
+            }
+        </div>
+
+        <div class="field">
+            <label for="ep-equipo">Equipo favorito <span class="chip">opcional</span></label>
+            <select id="ep-equipo" formControlName="equipoFavorito">
+                <option value="">Ninguno</option>
+                <option>Alpine</option>
+                <option>Aston Martin</option>
+                <option>Audi</option>
+                <option>Cadillac</option>
+                <option>Ferrari</option>
+                <option>Haas</option>
+                <option>McLaren</option>
+                <option>Mercedes</option>
+                <option>Racing Bulls</option>
+                <option>Red Bull</option>
+                <option>Williams</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="ep-descripcion">Descripción breve</label>
+        <textarea id="ep-descripcion" formControlName="descripcion" [class.error]="invalido('descripcion')"></textarea>
+        @if (invalido('descripcion')) {
+            <p class="err">Escribí una descripción de hasta 300 caracteres.</p>
+        }
+    </div>
+
+    @if (error()) {
+        <p class="msg-err">{{ error() }}</p>
+    }
+
+    <div class="actions">
+        <button class="btn" type="button" [disabled]="enviando()" (click)="cancelado.emit()">Cancelar</button>
+        <button class="btn btn-rojo" type="submit" [disabled]="enviando()">
+            {{ enviando() ? 'Guardando...' : 'Guardar cambios' }}
+        </button>
+    </div>
+</form>

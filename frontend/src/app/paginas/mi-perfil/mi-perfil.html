@@ -17,6 +17,8 @@
             <h2>{{ u.nombre }} {{ u.apellido }}</h2>
             <p class="usuario">&#64;{{ u.nombreUsuario }}</p>
             </div>
+
+            <button class="btn btn-sm editar" type="button" (click)="editando.set(true)">Editar perfil</button>
         </div>
 
         <p class="bio">{{ u.descripcion }}</p>
@@ -28,6 +30,12 @@
             <li><span>Perfil</span>{{ u.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}</li>
         </ul>
         </section>
+
+        @if (editando()) {
+            <div class="overlay on">
+                <app-editar-perfil (guardado)="alGuardar()" (cancelado)="editando.set(false)" />
+            </div>
+        }
 
         <section class="publicaciones">
             <h3>Mis últimas publicaciones</h3>
