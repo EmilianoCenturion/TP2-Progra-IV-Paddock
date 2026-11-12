@@ -5,6 +5,7 @@ import { Model, Types } from 'mongoose';
 import { PasswordHasher } from '@nestjs/authentication';
 import { ImagenesService } from '../imagenes/imagenes.service.js';
 import { RegistroUsuarioDto } from '../auth/dto/registro.dto.js';
+import { EditarPerfilDto } from './dto/editar-perfil.dto.js';
 
 @Injectable()
 export class UsuariosService {
@@ -46,6 +47,26 @@ export class UsuariosService {
 
   buscarPorId(id: string) {
     return this.usuarioModel.findById(id).exec();
+  }
+
+  async editarPerfil(id: string, dto: EditarPerfilDto) {
+    const { equipoFavorito, ...datos } = dto;
+
+    const cambios: any = { $set: datos };
+
+    if (equipoFavorito) {
+      cambios.$set.equipoFavorito = equipoFavorito;
+    } else {
+      cambios.$unset = { equipoFavorito: 1 };
+    }
+
+    const usuario = await this.usuarioModel.findByIdAndUpdate(id, cambios, { returnDocument: 'after', runValidators: true }).exec();
+
+    if (!usuario) {
+      throw new NotFoundException("El usuario no fue encontrado");
+    }
+
+    return usuario;
   }
 
   private async buscarParaAdmin(id: string) {
