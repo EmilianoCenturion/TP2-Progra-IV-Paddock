@@ -11,9 +11,10 @@
         <div class="overlay on">
             <div class="card modal" role="dialog" aria-modal="true" aria-labelledby="titulo-sesion">
                 <h2 id="titulo-sesion">Tu sesión está por vencer</h2>
-                <p class="sub">Te quedan 15 segundos. ¿Querés extender la sesión?</p>
+                <p class="contador mono" aria-live="polite">{{ sesion.segundosRestantes() }}</p>
+                <p class="sub">segundos para que se cierre tu sesión. ¿Querés extenderla?</p>
                 <div class="actions">
-                    <button class="btn" type="button" (click)="noExtender()">No</button>
+                    <button class="btn" type="button" (click)="sesion.cerrar()">No</button>
                     <button class="btn btn-rojo" type="button" (click)="sesion.extender()">Sí, extender</button>
                 </div>
             </div>

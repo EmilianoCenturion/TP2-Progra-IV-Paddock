@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { Navbar } from './componentes/navbar/navbar';
 import { Cargando } from './componentes/cargando/cargando';
 import { Auth } from './servicios/auth';
@@ -13,18 +13,11 @@ import { Sesion } from './servicios/sesion';
 })
 export class App {
   private authService = inject(Auth);
-  private router = inject(Router);
 
   sesion = inject(Sesion);
   usuario = this.authService.usuario;
 
   ngOnInit() {
     this.sesion.validar();
-  }
-
-  noExtender() {
-    this.sesion.detener();
-    this.authService.cerrarSesion();
-    this.router.navigate(['/login']);
   }
 }
