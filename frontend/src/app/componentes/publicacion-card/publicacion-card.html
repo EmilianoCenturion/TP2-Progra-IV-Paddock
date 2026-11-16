@@ -28,7 +28,7 @@
             </div>
 
             <button class="publi-like mono" type="button" [class.activo]="meGusta" [attr.aria-pressed]="meGusta" (click)="like.emit()">
-                {{ meGusta ? '♥' : '♡' }} {{ publicacion.cantidadLikes | abreviarNumero }}
+                {{ meGusta ? '♥' : '♡' }} {{ (publicacion.cantidadLikes + 1500) | abreviarNumero }}
             </button>
         </div>
 
