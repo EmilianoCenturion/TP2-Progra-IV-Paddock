@@ -27,9 +27,22 @@ export class Sesion {
             this.segundosRestantes.update((segundos) => segundos - 1);
 
             if (this.segundosRestantes() <= 0) {
-                this.cerrar();
+                this.vencer();
             }
         }, 1000);
+    }
+
+    ocultarAviso() {
+        this.mostrarAviso.set(false);
+    }
+
+    private vencer() {
+        this.detener();
+
+        this.authService.autorizar().subscribe({
+            next: () => this.cerrar(),
+            error: () => {},
+        });
     }
 
     detener() {

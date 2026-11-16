@@ -14,7 +14,7 @@
                 <p class="contador mono" aria-live="polite">{{ sesion.segundosRestantes() }}</p>
                 <p class="sub">segundos para que se cierre tu sesión. ¿Querés extenderla?</p>
                 <div class="actions">
-                    <button class="btn" type="button" (click)="sesion.cerrar()">No</button>
+                    <button class="btn" type="button" (click)="sesion.ocultarAviso()">No</button>
                     <button class="btn btn-rojo" type="button" (click)="sesion.extender()">Sí, extender</button>
                 </div>
             </div>
