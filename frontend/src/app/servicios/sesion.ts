@@ -11,25 +11,40 @@ export class Sesion {
     private cuentaRegresiva?: ReturnType<typeof setInterval>;
 
     mostrarAviso = signal(false);
-    segundosRestantes = signal(15);
+    segundosRestantes = signal(30);
     cargando = signal(localStorage.getItem("token") !== null);
 
     iniciar() {
         this.detener();
-        this.temporizador = setTimeout(() => this.avisar(), 45 * 1000);
+
+        const token = this.authService.obtenerToken();
+
+        if (!token) {
+            return;
+        }
+
+        // el token trae "exp" (en segundos): el aviso sale 30 segundos antes de que venza
+        const vence = JSON.parse(atob(token.split('.')[1])).exp * 1000;
+        const faltaParaAvisar = vence - 30 * 1000 - Date.now();
+
+        this.temporizador = setTimeout(() => this.avisar(vence), Math.max(faltaParaAvisar, 0));
     }
 
-    private avisar() {
-        this.segundosRestantes.set(15);
+    private avisar(vence: number) {
         this.mostrarAviso.set(true);
 
-        this.cuentaRegresiva = setInterval(() => {
-            this.segundosRestantes.update((segundos) => segundos - 1);
+        const actualizar = () => {
+            const restantes = Math.ceil((vence - Date.now()) / 1000);
+            this.segundosRestantes.set(Math.max(restantes, 0));
 
-            if (this.segundosRestantes() <= 0) {
+            // un segundo de margen para que el back ya lo considere vencido y devuelva 401
+            if (restantes <= -1) {
                 this.vencer();
             }
-        }, 1000);
+        };
+
+        actualizar();
+        this.cuentaRegresiva = setInterval(actualizar, 1000);
     }
 
     ocultarAviso() {
