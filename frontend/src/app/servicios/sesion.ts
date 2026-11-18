@@ -23,8 +23,11 @@ export class Sesion {
             return;
         }
 
-        // el token trae "exp" (en segundos): el aviso sale 30 segundos antes de que venza
-        const vence = JSON.parse(atob(token.split('.')[1])).exp * 1000;
+        // el token trae "iat" y "exp" (en segundos): de ahí sale cuánto dura (60 s).
+        // Se cuenta desde que llegó el token y no con la hora de la PC, que puede estar adelantada o atrasada.
+        const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const { iat, exp } = JSON.parse(atob(payload));
+        const vence = this.authService.obtenerTokenRecibido() + (exp - iat) * 1000;
         const faltaParaAvisar = vence - 30 * 1000 - Date.now();
 
         this.temporizador = setTimeout(() => this.avisar(vence), Math.max(faltaParaAvisar, 0));
@@ -52,11 +55,15 @@ export class Sesion {
     }
 
     private vencer() {
-        this.detener();
+        clearInterval(this.cuentaRegresiva);
 
+        // con el token vencido el back devuelve 401 y el interceptor lleva al login.
+        // Si todavía respondió bien (le faltaba un instante), se vuelve a probar en un segundo.
         this.authService.autorizar().subscribe({
-            next: () => this.cerrar(),
-            error: () => {},
+            next: () => {
+                this.temporizador = setTimeout(() => this.vencer(), 1000);
+            },
+            error: () => this.detener(),
         });
     }
 

@@ -27,7 +27,7 @@ export class Auth {
     }
 
     guardarSesion(respuesta: RespuestaAuth) {
-        localStorage.setItem('token', respuesta.token);
+        this.guardarToken(respuesta.token);
         this.actualizarUsuario(respuesta.usuario);
     }
 
@@ -38,14 +38,20 @@ export class Auth {
 
     guardarToken(token: string) {
         localStorage.setItem('token', token);
+        localStorage.setItem('tokenRecibido', Date.now().toString());
     }
 
     obtenerToken() {
         return localStorage.getItem('token');
     }
 
+    obtenerTokenRecibido() {
+        return Number(localStorage.getItem('tokenRecibido')) || Date.now();
+    }
+
     cerrarSesion() {
         localStorage.removeItem('token');
+        localStorage.removeItem('tokenRecibido');
         localStorage.removeItem('usuario');
         this.usuario.set(null);
     }
